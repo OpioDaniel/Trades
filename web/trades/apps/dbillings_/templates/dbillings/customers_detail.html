@@ -1,0 +1,29 @@
+{% extends "base_dbillings.html" %}
+
+{% block title %}
+    <title>View Customer</title>
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+
+    <h3>Customer Information (<a href="{% url 'dbillings:list_Customer' %}" >Back to Customer List</a>)</h3>
+
+    <hr/>
+
+    <table  class="w3-table-all w3-hoverable" style="width:50%">
+    <tbody>
+        <tr>
+            <th>First Name</th><td> {{ customer.first_name }}</td>
+        </tr>
+        <tr class="w3-light-blue">
+            <th>Last Name</th><td> {{ customer.last_name }}</td>
+        </tr>
+    </tbody>
+
+    <tfoot>
+
+    </tfoot>
+    </table>
+</div>
+{% endblock %}

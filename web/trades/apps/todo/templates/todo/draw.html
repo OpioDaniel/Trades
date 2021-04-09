@@ -1,0 +1,251 @@
+{% extends "base_todo.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block sub_app_toolbar %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'todo:index' %}">To do</a>
+    </li>
+{% endblock sub_app_toolbar %}
+
+{% block add_js %}
+  <script src="{% static 'js/whiteboard.js' %}"></script>
+{% endblock add_js %}
+
+{% block body %}
+
+<style>
+.pencil {
+  cursor: crosshair;
+<!--  cursor: url({% static "main/pencil.png" %}) 5 5, pointer;-->
+}
+
+
+.button {
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button3 {border-radius: 30%;}
+.button5 {border-radius: 50%;}
+
+</style>
+</head>
+<body>
+
+<div id="drawing_colors"></div>
+<span id="coordinates">coordinates</span>
+<button class="button button5" style="background-color: red;border-radius: 12px;" onclick="add_whiteboard(event)">
+    Add Whiteboard
+</button>
+<br/>
+<div id="whiteboard"></div>
+
+
+<!--<button class="button button5" style="background-color: black;" onclick="change_color(event)"></button>-->
+<!--<button class="button button5" style="background-color: green;" onclick="change_color(event)"></button>-->
+<!--<button class="button button5" style="background-color: red;" onclick="change_color(event)"></button>-->
+<!--<button class="button button5" style="background-color: blue;" onclick="change_color(event)"></button>-->
+
+{% endblock %}
+
+
+{% block domready %}
+// ================================================
+var n_whiteboard = 1
+add_whiteboard = function(event)
+{
+     event.preventDefault();
+     var ss = prompt('Enter Whiteboard name:', '')
+     if(ss != "" && ss != null)
+     {
+       wm.setTab("n_"+n_whiteboard.toString(), ss)
+       n_whiteboard += 1
+       wm.setDefaultColors("black")
+     }
+}
+
+<!--change_color = function(event)-->
+<!--{-->
+<!-- wm.CurrentWhiteboardTab.ctx.strokeStyle = event.target.style.backgroundColor-->
+<!--}-->
+
+function WhiteboardManager(course_schedule_id)
+{
+    this.name = course_schedule_id.toString()
+    this.colors = ['black', 'green', 'red', 'blue']
+    this.color_match = {}
+    this.color_match['#000000']= 'black';
+    this.color_match['#008000']= 'green';
+    this.color_match['#ff0000']= 'red';
+    this.color_match['#0000ff']= 'blue';
+
+    elm = document.getElementById("whiteboard");
+    elm_board_titles = document.createElement("ul");
+    elm_board_titles.setAttribute("id", "titles-" + this.name);
+    elm_board_titles.setAttribute("class", "nav nav-tabs")
+    this.tabTitles = elm_board_titles
+    elm.appendChild(elm_board_titles)
+    //--
+    elm_board_contents = document.createElement("div");
+    elm_board_contents.setAttribute("id", "contents-" + this.name);
+    elm_board_contents.setAttribute("class", "tab-content")
+    this.tabContents = elm_board_contents
+    elm.appendChild(elm_board_contents)
+    this.TabObjects = {}
+    //--
+    elm_drawing_colors = document.getElementById("drawing_colors");
+    for (c in this.colors)
+    {
+      cc = document.createElement("button");
+      cc.setAttribute("id", "id_"+this.colors[c])
+      cc.setAttribute("class", "button button5")
+      cc.setAttribute("style", "background-color: "+this.colors[c])
+      cc.addEventListener("click", function(){
+        event.preventDefault();
+        wm.CurrentWhiteboardTab.ctx.strokeStyle = event.target.style.backgroundColor
+        wm.setDefaultColors(event.target.style.backgroundColor)
+      }.bind(cc, event));
+
+      elm_drawing_colors.appendChild(cc)
+    }
+}
+
+WhiteboardManager.prototype.setDefaultColors = function(cc)
+{
+  if (!(this.colors.indexOf(cc) >= 0)) {cc = this.color_match[cc]}
+    for (c in this.colors)
+    {
+        document.getElementById("id_"+this.colors[c]).setAttribute("class", "button button5")
+    }
+    document.getElementById("id_"+cc).setAttribute("class", "button button3")
+}
+
+WhiteboardManager.prototype.setTab = function(name, title) {
+     this.TabObjects[name] = new WhiteboardTab(this, name, title)
+     var event = new Event("click", {bubbles: false}); this.TabObjects[name].tabTitle.dispatchEvent(event)
+}
+
+
+function WhiteboardTab(parent, name, title, width="1000", height="500", top="15", right="25", background_color="#f1f1f1",
+ background_color_header="#2196F3", border_color="#f1f1f1", header_color="#fff", z_index=10)
+{
+  this.parent=parent; this.name=name; this.title=title;
+  this.width=width; this.height=height;
+//this.top=top;
+//  this.right=right;
+  this.background_color=background_color; this.background_color_header=background_color_header;
+  this.border_color=border_color; this.header_color=header_color;this.z_index=z_index;
+
+  ed_id = "wb_" + this.parent.name + "_" + this.name
+  ed = document.createElement("div"); ed.setAttribute("id", ed_id)
+  // need to fix for language in Arabic
+  s_style = "background-color:"+this.background_color+";z-index:"+this.z_index
+  s_style += ";text-align:left;border: 3px solid "+this.border_color+";width:"+this.width+"px; height:"+this.height+"px;"
+
+  //ed.setAttribute("width", this.width)
+  //ed.setAttribute("height", this.height)
+//  +";right:"+ this.right + "%;top:"+this.top+"%;width:"
+//  s_style += this.width+"px; height:"+this.height+"px;"
+// s_style = "overflow:scroll;position:fixed;
+  ed.setAttribute("style", s_style)
+  ed.setAttribute("class", "tab-pane fade ")
+  this.parent.tabContents.appendChild(ed)
+  //alert(ed.outerHTML)
+
+  elm_canvas = document.createElement("canvas");elm_canvas.setAttribute("id",this.parent.name+"_"+this.name+"_canvas")
+  elm_canvas.setAttribute("width", this.width)
+  elm_canvas.setAttribute("height", this.height)
+  elm_canvas.setAttribute("class", "pencil")
+  elm_canvas.setAttribute("is_drawing", "false")
+  elm_canvas.setAttribute("style", "border:3px solid #000000")
+
+  // could be 3d, if you want to make a video game
+  // could be 3d, if you want to make a video game
+  this.ctx = elm_canvas.getContext('2d');
+  this.ctx.lineJoin = 'round'; this.ctx.lineCap = 'round'; this.ctx.lineWidth = 1;
+  this.ctx.strokeStyle = 'black';
+  elm_canvas.setAttribute("lastX", 0)
+  elm_canvas.setAttribute("lastY", 0)
+  //--
+  elm_canvas.setAttribute("obj_name", name)
+  //--
+  // alert(elm_canvas.outerHTML)
+  elm_canvas.addEventListener('mouseup', (e) => {e.target.setAttribute("is_drawing", "false");});
+  elm_canvas.addEventListener('mouseout', (e) => e.target.setAttribute("is_drawing", "false"));
+
+  elm_canvas.addEventListener('mousedown', (e) => {
+    elm = e.target; elm.setAttribute("is_drawing", "true");
+    elm.setAttribute("lastX", e.offsetX); elm.setAttribute("lastY", e.offsetY);
+  });
+
+  elm_canvas.addEventListener("mousemove", function(){
+
+    // stop the function if they are not mouse down
+    elm = event.target
+    is_drawing = elm.getAttribute("is_drawing")
+    if(is_drawing == "false") return;
+
+    try
+    {var coords = "X coords: " + event.offsetX + ", Y coords: " + event.offsetY;
+     document.getElementById("coordinates").innerHTML = coords;
+     }
+    catch(err) {alert(err.message);}
+
+    //listen for mouse move event
+    console.log(event);
+    //--
+    ctx = parent.TabObjects[obj_name].ctx
+    //--
+    ctx.beginPath();
+    lastX = elm.getAttribute("lastX")
+    lastY = elm.getAttribute("lastY")
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+    elm.setAttribute("lastX", event.offsetX)
+    elm.setAttribute("lastY", event.offsetY)
+
+  }.bind(elm_canvas, event, parent ));
+
+  ed.appendChild(elm_canvas)
+  //
+  e = document.createElement("li")
+  e.setAttribute("class", "nav-item")
+  ea = document.createElement("a")
+  ea.setAttribute("class", "nav-link ")
+  ea.setAttribute("id", "tab-" + name)
+  ea.setAttribute("obj_name", name)
+  ea.setAttribute("href", "#" + ed_id)
+  ea.innerHTML = title
+  e.appendChild(ea)
+  this.parent.tabTitles.insertBefore(e, this.parent.tabTitles.childNodes[0])
+
+  ea.addEventListener("click", function(){
+    event.preventDefault();
+    elm = event.target; obj_name = elm.getAttribute('obj_name');
+    parent.CurrentWhiteboardTab = parent.TabObjects[obj_name]
+    try {$(this).tab('show');
+//alert(parent.CurrentWhiteboardTab)
+//alert(parent.CurrentWhiteboardTab.ctx)
+//alert(parent.CurrentWhiteboardTab.ctx.strokeStyle)
+          parent.setDefaultColors(parent.CurrentWhiteboardTab.ctx.strokeStyle);
+    }
+    catch(err) {alert(err.message);}
+  }.bind(ea, event, parent));
+
+ this.tabTitle = ea; // document.getElementById("tab-"+this.name)
+ this.tabDoc = ed; //document.getElementById(this.name)
+}
+
+wm = new WhiteboardManager(12345)
+
+{% endblock %}
+

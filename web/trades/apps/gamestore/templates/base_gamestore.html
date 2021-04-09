@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}
+  <title>Game Store</title>
+{% endblock title%}
+
+
+{% block app_toolbar %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'main:home' %}">Main</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'todo:index' %}">To Do</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'dbillings:index' %}">Billings</a>
+    </li>
+{% endblock app_toolbar %}
+
+
+{% block sub_app_toolbar %}
+{% endblock sub_app_toolbar %}
+
+
+{% block body %}
+   Billings App.
+{% endblock body%}

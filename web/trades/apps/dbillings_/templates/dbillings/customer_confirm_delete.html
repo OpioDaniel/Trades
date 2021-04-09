@@ -1,0 +1,16 @@
+{% extends "base_dbillings.html" %}
+
+{% block title %}
+    <title><title>Delete Customer</title></title>
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <form method="post">{% csrf_token %}
+        <p><h3>Are you sure you want to delete "{{ object }}"?</h3></p>
+        <input type="submit" value="Confirm" style="color:red">
+        <input type="button" value="Cancel" style="color:blue"
+               onclick="window.history.go(-1);"/>
+    </form>
+</div>
+{% endblock %}

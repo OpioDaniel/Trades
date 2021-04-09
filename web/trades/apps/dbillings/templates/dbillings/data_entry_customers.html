@@ -1,0 +1,17 @@
+{% extends "base_dbillings.html" %}
+
+{% block body %}
+
+<form action="" method="POST">
+  {% csrf_token %}
+
+    <label for="first_name">First name:</label>
+    <input id="first_name" name="first_name" type="text" placeholder="Enter a First Name" required><br/>
+
+    <label for="last_name">Last name:</label>
+    <input id="last_name" name="last_name" type="text" placeholder="Enter a Last Name" required><br/>
+
+    <input type="submit" class="btn btn-success" value="Submit data">
+</form>
+
+{% endblock body %}

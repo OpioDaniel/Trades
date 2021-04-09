@@ -1,0 +1,16 @@
+{% extends "base_dbillings.html" %}
+
+{% block title %}
+    <title>Create Customer</title>
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+    <input type="button" value="Cancel" style="color:red"
+              onclick="window.history.go(-1);"/></b>
+</form>
+</div>
+{% endblock %}

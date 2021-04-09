@@ -1,0 +1,10 @@
+*.db
+.DS_Store
+.idea
+venv
+env
+__pycache__
+.venv
+.cache
+*.pdf
+local.py

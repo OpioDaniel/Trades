@@ -1,0 +1,28 @@
+{%  extends 'base.html' %}
+{% block head %}
+<title>Game Store</title>
+{% endblock %}
+{% load static %}
+{% block myapp %}
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{% url 'app:index' %}">App</a></li>
+                <li><a href="{% url 'gamestore:index' %}">Home</a></li>
+                <li><a href="{% url 'gamestore:user-cart' %}">Cart</a></li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="gamestore:index" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Reports
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="">Total Sales</a>
+                  <a class="dropdown-item" href="">Customers List</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">CCCCC</a>
+                  <a class="dropdown-item" href="#">DDDDD</a>
+                </div>
+                </li>
+            </ul>
+{% endblock %}
+{% block body %}
+ This is {{ title }}
+{% endblock %}

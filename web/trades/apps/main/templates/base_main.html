@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  <title>Main</title>
+{% endblock title%}
+
+
+{% block app_toolbar %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'dbillings:index' %}">Billings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'todo:index' %}">To do</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'todo:draw' %}">To do - draw</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'ugandatowns:index' %}">U Towns</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'gamestore:index' %}">Game Store</a>
+    </li>
+{% endblock app_toolbar %}

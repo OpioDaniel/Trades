@@ -1,0 +1,41 @@
+{% extends "base_dbillings.html" %}
+{% load thumbnail %}
+
+
+{% block body %}
+
+{{title}}
+<br/><br/>
+
+<a href="{% url 'dbillings:create_customer' %}">
+    <span class="badge badge-pill badge-primary" style="font-size:20px">Create New Customer</span>
+</a>
+
+<div class="w3-responsive">
+
+<table  class="w3-table-all w3-hoverable" style="width:40%">
+    <thead>
+      <tr class="w3-light-blue">
+        <th>#</th>
+        <th>Customer Name</th>
+        <th>View</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+{% for customer in customers %}
+    <tr>
+        <td>{{ customer.customer_number}}</td>
+        <td>{{ customer.first_name}} {{ customer.last_name}}</td>
+        <td>view btn</td>
+        <td>updat btn</td>
+        <td>delete btn</td>
+    </tr>
+{% endfor %}
+
+
+</table>
+
+
+{% endblock body %}
