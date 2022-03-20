@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+
+    {% block title %}
+    <title>Title</title>
+    {% endblock%}
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'bizland/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'bizland/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'bizland/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'bizland/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'bizland/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'bizland/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'bizland/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'bizland/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'bizland/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: BizLand - v3.1.0
+  * Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+
+<body>
+
+{% block body_content %}
+{% endblock %}
+
+
+
+{% block js %}
+  <script src="{% static 'bizland/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'bizland/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'bizland/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'bizland/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'bizland/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'bizland/vendor/purecounter/purecounter.js' %}"></script>
+  <script src="{% static 'bizland/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'bizland/vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'bizland/js/main.js' %}"></script>
+  <script src="{% static 'bizland/js/js.cookie.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous">
+</script>
+{% endblock %}
+
+
+
+
+<script>
+var csrftoken = Cookies.get('csrftoken');
+  function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+    }
+  });
+
+  $(document).ready(function(){
+
+    post_ajax_create_action = function (verb_="", app_="", model_, obj_slug_=null, pkey_=null) {
+      $.post(link_create_action,
+        {
+          verb: verb_,
+          app: app_,
+          model: model_,
+          obj_slug: obj_slug_,
+          pkey: pkey_
+        },
+        function(data){
+            alert(data["status"])
+        }
+      );
+    }
+
+    {% block domready %}
+
+    {% endblock %}
+  });
+</script>
+</body>
+</html>

@@ -1,6 +1,5 @@
 {% extends "base_ugandatowns.html" %}
-{% load thumbnail %}
-
+  {% load thumbnail %}
 {% block sub_app_toolbar %}
 
 {% endblock sub_app_toolbar %}
@@ -13,25 +12,22 @@ body {font-family: "Lato", sans-serif;}
 
 /* Style the tab */
 .tab {
-  float: left;
+  overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
-  width: 30%;
-  height: 300px;
+   width: 70%;
+
 }
 
 /* Style the buttons inside the tab */
 .tab button {
-  display: block;
   background-color: inherit;
-  color: black;
-  padding: 22px 16px;
-  width: 100%;
+  float: left;
   border: none;
   outline: none;
-  text-align: left;
   cursor: pointer;
-  transition: 0.3s;
+  padding: 14px 16px;
+  transition: 0.2s;
   font-size: 17px;
 }
 
@@ -55,44 +51,64 @@ body {font-family: "Lato", sans-serif;}
   height: 300px;
 }
 </style>
-</head>
-<body>
+<div>
+  <table>
 
-<h2>{{title}}</h2>
+  <thead>
+  <th>TOWNS</th>
+  </thead>
 
-<div class="tab" onclick="openCity(event)">
     {% for town in towns %}
-        <button class="tablinks" id="defaultOpen" city="{{town.town_name}}">{{town.town_name}}</button>
-    {% endfor %}
+
+  <!--    <tr>-->
+<!--    <td><a href="{{town.get_absolute_url}}">{{town.town_name}}</a></td>-->
+<!--    </tr>-->
+
+
+  <tr>
+      <td><a href="{%url 'ugandatowns:detailed_town' town.pk%}">{{town.town_name}}</a></td>
+   </tr>
+
+  {% endfor %}
+  </table>
+</div>
+<br>
+<hr>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<h2>Vertical Tabs</h2>
+<p>Click on the buttons inside the tabbed menu:</p>
+
+
+<div class="tab">
+   {% for town in towns %}
+  <button class="tablinks" onclick="openCity(event, '{{town.town_name}}')" id="defaultOpen">{{town.town_name}}</button>
+  {% endfor %}
 </div>
 
 
+{% for town in towns %}
+<div id="{{town.town_name}}" class="tabcontent">
+  <h3>{{town.town_name}}</h3>
+  {% if town.town_name == 'Entebbe' %}
+     <p>{{town.town_name}} is not my favorite city .</p>
+  {% else %}
+      <p>{{town.town_name}} is my favorite city.</p>
+  {% endif %}
+
+    {% thumbnail town.Image '600x300' crop as gi %}
+     <img src="{{gi.url}}">
+      <p>TOWN CLERK NAME:{{town.town_clerk_fullname }}</p>
+</div>
+
+{% endfor %}
+
 <script>
+function openCity(evt,cityName)  {
 
-var towns_divs = {}
-
-function openCity(event) {
-var elm = event.target
-var cityName = elm.getAttribute("city")
-
-if(cityName in towns_divs)
-{
- d = towns_divs[cityName]
-} else
-{
-  var d = document.createElement("div")
-  d.innerHTML = cityName
-  d.classList.add("tabcontent");
-  d.setAttribute("id",  cityName)
-  var content = document.getElementById("content")
-  content.appendChild(d)
-  towns_divs[cityName] = d
-}
-
-
-// alert(cityName)
-
-  var i, tabcontent, tablinks;
+ var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
@@ -103,11 +119,13 @@ if(cityName in towns_divs)
   }
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
-}
 
+
+
+  }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 </script>
 
-
 {% endblock body %}
+

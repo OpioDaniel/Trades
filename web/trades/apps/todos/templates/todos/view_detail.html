@@ -1,0 +1,11 @@
+{% extends "base_todos.html" %}
+{% load static %}
+
+{% block body %}
+<table>
+ <tr>
+ <th>FullName</th><td>{{citizens.full_name}}</td>
+  <th>Country</th><td>{{citizens.country}}</td>
+</tr>
+</table>
+{% endblock body %}

@@ -2,24 +2,57 @@
 {% load static %}
 
 {% block title %}
-  <title>Main</title>
+  <title>MAIN</title>
 {% endblock title%}
 
-
 {% block app_toolbar %}
+
+<!--   <li class="nav-item">-->
+<!--      <a class="nav-link" href="{% url 'todos:home' %}">Todos</a>-->
+<!--    </li>-->
+
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'dbillings:index' %}">Billings</a>
+      <a class="nav-link" href="{% url 'todo:index' %}">Todo</a>
     </li>
+
+
+     <li class="nav-item">
+      <a class="nav-link" href="{% url 'bless:home' %}">Jquery</a>
+    </li>
+
+<!--       <li class="nav-item">-->
+<!--      <a class="nav-link" href="{% url 'goblin:home' %}">Goblin</a>-->
+<!--    </li>-->
+
+     <li class="nav-item">
+      <a class="nav-link" href="{% url 'fabhouse:home' %}">FabHouse</a>
+    </li>
+
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'todo:index' %}">To do</a>
+      <a class="nav-link" href="{% url 'ueconomics:index' %}">Ueconomics</a>
     </li>
+
+
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'todo:draw' %}">To do - draw</a>
+      <a class="nav-link" href="{% url 'dbillings:index' %}">DBillings</a>
     </li>
+
+
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'ugandatowns:index' %}">U Towns</a>
+      <a class="nav-link" href="{% url 'gamestore:index' %}">Gamestore</a>
     </li>
+
+
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'gamestore:index' %}">Game Store</a>
+      <a class="nav-link" href="#">Other App</a>
     </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="">Library</a>
+    </li>
+
+
+
+
 {% endblock app_toolbar %}
+

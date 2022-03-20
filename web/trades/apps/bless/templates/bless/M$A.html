@@ -1,0 +1,191 @@
+{% extends "base_bless.html" %}
+{% load static %}
+
+{% block body %}
+<style>
+    th{border-radius:50px 50px 0px 0px}
+    table{border:hidden;}
+    .account_{background-color:#f4f4f4}
+</style>
+<!-- re_calculate -->
+<script>
+re_calculate = function (event)
+{
+
+    if(paid.value==""){
+        alert('You must enter a payment amount.')
+        return;
+    }
+
+    if(percentage.value==""){
+        alert('You must enter a percentage acquired amount.')
+        return;
+    }
+
+    cash.value = parseInt(cashA.value) + parseInt(cashB.value) - parseInt(paid.value)  ;
+    debt.value = parseInt(debtA.value) + parseInt(debtB.value) ;
+    assets.value = parseInt(assetsA.value) + parseInt(assetsB.value) ;
+    equity.value = parseInt(equityA.value) ;
+    minority.value = (1 - parseInt(percentage.value)/100)  * parseInt(equityB.value) ;
+    goodwill.value = parseInt(paid.value) - parseInt(percentage.value) * parseInt(equityB.value)/100 ;
+
+}
+</script>
+
+<!-- case_studies -->
+<script>
+case_studies = function (event)
+{
+     elm = event.target
+     eval("a = " + elm.getAttribute("account"));
+      for (i in a)
+       {
+           //alert(i) ; alert(a[i])
+           sa = i + ".value =  parseInt(i.value = 0 ) + parseInt(a[i])"
+           eval(sa)
+       }
+re_calculate()
+}
+</script>
+
+
+<div oninput="re_calculate(event)"  class="row" style="background-image: url('{% static 'M$A/resize.jpg'%}'); margin-left:50px;";>
+
+<!-- company A   -->
+   <div>
+      <table style="margin-left:200px;">
+          <thead>
+            <th colspan="4">Company A</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="account_">Debt</td>
+                <td><input id="debtA" value="700" /></td>
+                <td class="account_">Cash</td>
+                <td><input id="cashA" value="500" /></td>
+            </tr>
+
+            <tr>
+                 <td class="account">Equity</td>
+                 <td><input id="equityA" value="300" /></td>
+                 <td class="account">Assets</td>
+                 <td><input id="assetsA" value="500" /></td>
+            </tr>
+        </tbody>
+      </table>
+   </div>
+
+<!--  company B  -->
+   <div>
+      <table style="margin-left:50px;" >
+        <thead>
+            <th colspan="4">Company B</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="account_">Debt</td>
+                 <td><input id="debtB" value="700" /></td>
+                <td class="account_">Cash</td>
+                <td><input id="cashB" value="500" /></td>
+            </tr>
+
+            <tr>
+                 <td class="account">Equity</td>
+                 <td><input id="equityB" value="300" /></td>
+                 <td class="account">Assets</td>
+                <td><input id="assetsB" value="500" /></td>
+            </tr>
+
+        </tbody>
+     </table>
+  </div>
+
+<!-- Consolidated balance sheet of A  -->
+   <div>
+      <table style="margin-left:270px; margin-top:30px" >
+          <thead>
+            <th colspan="4">Consolidated Balance Sheet Of A</th>
+          </thead>
+        <tbody>
+            <tr>
+                <td class="account_">Debt</td>
+                <td><input id="debt" value="1400" /></td>
+                <td class="account_">Cash</td>
+                <td><input id="cash" value="600" /></td>
+            </tr>
+
+            <tr>
+                 <td class="account">Minority interest</td>
+                 <td><input id="minority" value="60" /></td>
+                 <td class="account">Assets</td>
+                 <td><input id="assets" value="1000" /></td>
+            </tr>
+
+           <tr>
+            <td class="account_">Equity</td>
+                 <td><input id="equity" value="300" /></td>
+                 <td class="account_">Goodwill</td>
+                 <td><input id="goodwill" value="160" /></td>
+           </tr>
+
+        </tbody>
+     </table>
+  </div>
+
+<!-- Acquisition parameters -->
+   <div>
+      <table style="margin-left:200px; margin-top: 15px" >
+          <thead>
+            <th colspan="4">Acquisition parameters</th>
+        </thead>
+        <tbody onclick="case_studies(event)">
+            <!--case_parameter-->
+            <tr>
+                 <td class="account_">Company A paid</td>
+                 <td><input id="paid" value="400" /></td>
+            </tr>
+            <tr>
+                 <td class="account">For(%) of equity of company B </td>
+                 <td><input id="percentage" value="80" /></td>
+            </tr>
+
+            <!--case_studies-->
+            <tr>
+              <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{ 'paid': 300,'percentage': 100 }">
+                     1.Buying 100% Share of Company B at 300
+                   </a>
+                </td>
+
+              <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{ 'paid': 400,'percentage': 100 }">
+                     2.Buying 100% Share of Company B at 400
+                   </a>
+              </td>
+            </tr>
+
+            <tr>
+            <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{ 'paid': 350,'percentage': 75 }">
+                     3.Buying 75% Share of Company B at 350
+                   </a>
+            </td>
+
+            <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{ 'paid': 450,'percentage': 90 }">
+                     3.Buying 90% Share of Company B at 450
+                   </a>
+            </td>
+            </tr>
+
+        </tbody>
+     </table>
+  </div>
+
+</div>
+<br/><br/>
+{% endblock body %}

@@ -22,6 +22,7 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=20, default='', blank=True)
     type = models.IntegerField(default=1, choices=TYPES)
     image = models.ImageField(upload_to='main/', default='main/unknown.png')
+    age = models.IntegerField(null=True)
 
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name

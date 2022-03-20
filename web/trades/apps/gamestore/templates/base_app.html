@@ -1,0 +1,37 @@
+{%  extends 'base.html' %}
+{% block head %}
+<title>Game Store</title>
+{% endblock %}
+{% load static %}
+{% block app_toolbar %}
+
+
+                <li class="nav-item">
+
+                 <a class="nav-link" href="{% url 'main:home' %}">Main</a>
+              </li>
+
+                <li class="nav-item" >
+
+                 <a  class="nav-link" href="{% url 'gamestore:user-cart' %}">Cart</a>
+
+               </li>
+
+<!--                <li class="nav-item dropdown">-->
+<!--                <a class="nav-link dropdown-toggle" href="gamestore:index" id="navbarDropdown"-->
+<!--                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                  Reports-->
+<!--                </a>-->
+<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                  <a class="dropdown-item" href="">Total Sales</a>-->
+<!--                  <a class="dropdown-item" href="">Customers List</a>-->
+<!--                  <div class="dropdown-divider"></div>-->
+<!--                  <a class="dropdown-item" href="#">CCCCC</a>-->
+<!--                  <a class="dropdown-item" href="#">DDDDD</a>-->
+<!--                </div>-->
+<!--                </li>-->
+
+{% endblock app_toolbar %}
+{% block body %}
+ This is {{ title }}
+{% endblock %}

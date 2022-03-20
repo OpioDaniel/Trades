@@ -8,10 +8,23 @@ from django.contrib.auth.views import (PasswordResetView, PasswordResetDoneView,
 from django.contrib import messages
 from .forms import (RegistrationForm, EditUserForm, UserProfileForm)
 from .models import (GlobUser)
+from django.views.generic import DetailView
 
 
 def home(request):
-    return render(request, 'main/home.html', {'title':  'Main Page'})
+    district = 'Apac'
+    title = "WE GO ACROSS ALL COUNTRIES"
+
+    return render(request, 'main/home_1.html', {'title': title, 'district': district})
+
+# def pass(request):
+#
+#     title = "Amos For All Countries"
+#
+#     return render(request, 'main/pass.html', {'title': title})
+
+
+
 
 
 def email_message(semail, type):

@@ -1,0 +1,225 @@
+*{
+    margin-left: 60px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
+
+}
+
+h1{
+  margin-left: 160px;
+
+}
+
+
+body{
+    font-family: 'Roboto',sans-serif;
+    background-color: green;
+    min-height: 100vh;
+    
+}
+
+.signup-btn{
+    margin-left: 300px;
+    margin-top: 0px;
+    cursor: pointer;
+    border-radius: 8px;
+    padding:15px;
+    background-color:grey;
+}
+
+.regis{
+
+    /* width: 100%;
+    max-width: 414px;
+    margin:100px auto; */
+
+    width: 60%;
+    background-color: yellowgreen;
+    border-radius: 50px;
+    margin-top: 100px;
+    height:300px;
+    margin-left:200px;
+
+
+}
+
+.input-field{
+    border-radius: 12px;
+    width: 150px;
+    padding:15px;
+    margin-left:150px;
+    margin-top:20px;
+    
+    
+}
+
+body.design{
+    background-image: url('../pex.jpeg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: cal(100vh -80px);
+}
+body.login{
+background-image: url('../jerry.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: cal(100vh -80px);
+
+}
+
+body.box{
+    background-image: url('../jerry.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: cal(100vh -80px);
+  }
+.icon{
+margin-top:220px;
+margin-left:300px;
+}
+
+.geb{
+margin-left:100px;
+}
+nav{
+    background-color: cadetblue;
+    height: 80px;
+    width: 100%;
+
+
+}
+
+*{
+    padding: 0px;
+    margin: 0px;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body.design{
+    font-family: montserrat;
+}
+
+label.logo{
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight:bold ;
+}
+
+nav ul{
+    float: right;
+    margin-right: 30px;
+}
+
+nav ul li{
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+
+}
+
+nav ul li a{
+    color: white;
+    font-size: 17px;
+    text-transform: uppercase;
+    padding: 7px 13px;
+    border-radius: 3px;
+}
+
+
+a.active,a:hover{
+    background:royalblue;
+    transition: .5s;
+}
+
+
+.checkbtn{
+    font-size: 30px;
+    color: white;
+    float: right;
+    line-height: 80px;
+    margin-right: 40px;
+    cursor: pointer;
+    display: none;
+}
+
+#check{
+    display: none;
+}
+
+@media(max-width:952px){
+    label.logo{
+        font-size: 30px;
+        padding-left: 50px;
+
+        }
+
+        nav ul li a{
+            font-size: 16px;
+        }
+}
+
+
+@media(max-width:858px){
+
+.checkbtn{
+    display: block;
+}
+
+ul{
+    position: fixed;
+    width: 100px;
+    height: 100vh;
+    background:green;
+    top: 80px;
+    left: -100;
+    text-align: center;
+    transition: all .5s;
+}
+
+nav ul li{
+    display: block;
+    margin: 50px 0;
+    line-height: 30px;
+}
+
+nav ul li a{
+    font-size: 20px;
+}
+
+a:hover,a.active{
+    background: none;
+    color:yellow;
+}
+
+#check:checked ~ ul{
+    left: 0;
+}
+
+}
+
+
+
+.input-field{
+    border-radius: 15px;
+    width: 100px;
+
+
+}
+
+
+
+
+
+
+
+
+
+

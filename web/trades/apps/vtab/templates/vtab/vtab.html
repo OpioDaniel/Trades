@@ -1,0 +1,420 @@
+{% load static %}
+<html>
+<head>
+    <style>
+
+.pencil {
+  cursor: crosshair;
+<!--  cursor: url({% static "main/pencil.png" %}) 5 5, pointer;-->
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button3 {border-radius: 30%;}
+.button5 {border-radius: 50%;}
+.buttonadd {border-radius: 50%;padding: 8px;margin: 10px 20px;}
+
+
+    </style>
+</head>
+<body id="body0">
+
+<script>
+
+function acWin(win_name="none", win_title="none", width="500", height="300", left="0", top="0", is_scroll=true)
+{
+
+//alert(win_name +" : " + win_title +" : " + width +" : " + height +" : " + left +" : " + top)
+
+
+  this.win_name = win_name
+  this.win_frame = document.createElement("div");
+  this.win_frame.setAttribute("id", "win_frame_"+this.win_name);
+  this.style_frame = "position: fixed; background-color: white; z-index: 11; text-align: left;"
+  this.style_frame += "height:"+height+"px;width:"+width+"px;font-size:12pt;"
+  this.style_frame += "border:2px solid #0094ff;"
+  this.style_frame += "border-top-left-radius:35px;border-top-right-radius:35px;"
+  this.style_frame += "left:"+left+";top:"+top+";"
+  this.win_frame.setAttribute("style", this.style_frame);
+
+  this.title_height = 25
+  this.win_frame_title = document.createElement("div");
+  this.win_frame_title.setAttribute("id", "win_frame_title_"+this.win_name);
+  this.style_title = "text-align:center;display:block;padding:4px;color:#fff;margin:-1 0 0 0;height:"+this.title_height+"px;z-index:11;"
+  this.style_title += "background-color:#2196F3;color:#fff;cursor:move;font-size:12pt;border-top-left-radius:35px;border-top-right-radius:35px;"
+  this.win_frame_title.setAttribute("style", this.style_title);
+  this.win_frame_title.innerHTML = win_title
+  this.win_frame.appendChild(this.win_frame_title)
+
+  this.win_frame_ico = document.createElement("img");
+  this.win_frame_ico.setAttribute("id", "win_frame_ico_"+this.win_name);
+  this.win_frame_ico.setAttribute("src", "http://www.academycity.org/static/core/globs.jpg");
+  this.win_frame_ico.setAttribute("style", "border-radius: 10px;position: absolute;left: 30");
+  this.win_frame_ico.setAttribute("height", "20");
+  this.win_frame_ico.setAttribute("width", "20");
+  this.win_frame_title.appendChild(this.win_frame_ico)
+
+  this.win_content = document.createElement("div");
+  this.win_content.setAttribute("id", "win_content_"+this.win_name);
+  //this.win_content.innerHTML = "Content."
+  if(is_scroll==true)
+  {
+   this.style_content = "overflow: scroll;"
+  }
+  "height:"+(height-this.title_height-7)+"px;width:"+width+"px"
+  this.win_content.setAttribute("style", this.style_content);
+  this.win_frame.appendChild(this.win_content)
+  //--
+  this.win_nav = document.createElement("div");
+  this.win_nav.setAttribute("id", "win_nav_"+this.win_name);
+  this.style_win_nav = "position:fixed;text-align:center;width:80;display:none; left:"+left+";top:"+top+";";
+  this.win_nav.setAttribute("style", this.style_win_nav)
+
+  this.win_nav_ico = document.createElement("img");
+  this.win_nav_ico.setAttribute("id", "win_nav_ico_"+this.win_name);
+  this.win_nav_ico.setAttribute("src", "http://www.academycity.org/static/core/globs.jpg");
+  this.win_nav_ico.setAttribute("style", "border-radius: 10px;position: absolute;left: 30");
+  this.win_nav_ico.setAttribute("height", "20");
+  this.win_nav_ico.setAttribute("width", "20");
+  this.win_nav.appendChild(this.win_nav_ico)
+
+  this.span = document.createElement("span");
+  this.span.setAttribute("id", "span_"+this.win_name);
+  this.span.innerHTML = "&nbsp;Whiteboard"
+  this.span.setAttribute("style", "position: absolute;left: 50");
+  this.win_nav.appendChild(this.span)
+
+  body_ = document.getElementById("body0")
+  body_.appendChild(this.win_frame)
+  body_.appendChild(this.win_nav)
+
+  s = ''
+  s += 'this.win_frame_ico.addEventListener("click", function(){'
+  s += '  event.preventDefault();'
+  s += '  if (x_'+this.win_name+'.style.display === "none") {'
+  s += '    x_'+this.win_name+'.style.display = "block";'
+  s += '    n_'+this.win_name+'.style.display = "none";'
+  s += '  } else {'
+  s += '    x_'+this.win_name+'.style.display = "none";'
+  s += '    n_'+this.win_name+'.style.display = "block";'
+  s += '  }'
+  s += '}.bind(elm = this.win_frame_ico, event, x_'+this.win_name+' = this.win_frame, n_'+this.win_name+' = this.win_nav));'
+  eval(s)
+
+  s = ''
+    s += 'this.win_nav_ico.addEventListener("click", function(){'
+      s += 'event.preventDefault();'
+      s += 'if (x_'+this.win_name+'.style.display==="none") {'
+      s += 'x_'+this.win_name+'.style.display="block";'
+      s += 'n_'+this.win_name+'.style.display="none";'
+      s += '} else {'
+      s += 'x_'+this.win_name+'.style.display="none";'
+      s += 'n_'+this.win_name+'.style.display="block";'
+      s += '}'
+    s += '}.bind(this.win_nav_ico, event, x_'+this.win_name+' = this.win_frame, n_'+this.win_name+' = this.win_nav));'
+  eval(s)
+
+  this.win_frame_title.setAttribute('pos1', 0);
+  this.win_frame_title.setAttribute('pos2', 0);
+  this.win_frame_title.setAttribute('pos3', 0);
+  this.win_frame_title.setAttribute('pos4', 0);
+
+
+  s = ''
+  s += 'this.win_frame_title.addEventListener("mousedown", function(){'
+  s += 'event.preventDefault();'
+  s += 'elm_win_frame_title_'+this.win_name+'.setAttribute("pos3", event.clientX);'
+  s += 'elm_win_frame_title_'+this.win_name+'.setAttribute("pos4", event.clientY);'
+  s += 'document.addEventListener("mouseup", my_mouse_up_'+this.win_name+' = function(){'
+  s += 'event.preventDefault();'
+  s += 'try{'
+  s += 'document.removeEventListener("mouseup", my_mouse_up_'+this.win_name+');'
+  s += 'document.removeEventListener("mousemove", my_mouse_move_'+this.win_name+');'
+  s += '} catch (err) {err.message}'
+  s += '}.bind(elm_win_frame_title_'+this.win_name+', event));'
+
+    //document.onmousemove = elementDrag;
+  s += 'document.addEventListener("mousemove", my_mouse_move_'+this.win_name+' = function(){'
+  s += 'event.preventDefault();'
+        // calculate the new cursor position:
+  s += 'pos3 = elm_win_frame_title_'+this.win_name+'.getAttribute("pos3");'
+  s += 'pos4 = elm_win_frame_title_'+this.win_name+'.getAttribute("pos4");'
+  s += 'pos1 = pos3 - event.clientX;'
+  s += 'pos2 = pos4 - event.clientY;'
+  s += 'pos3 = event.clientX;'
+  s += 'pos4 = event.clientY;'
+  s += 'elm_win_frame_title_'+this.win_name+'.setAttribute("pos3", pos3);'
+  s += 'elm_win_frame_title_'+this.win_name+'.setAttribute("pos4", pos4);'
+        // set the element's new position:
+  s += 'elm_win_frame_'+this.win_name+'.style.top = (elm_win_frame_'+this.win_name+'.offsetTop - pos2) + "px";'
+  s += 'elm_win_frame_'+this.win_name+'.style.left = (elm_win_frame_'+this.win_name+'.offsetLeft - pos1) + "px";'
+
+  s += 'elm_win_nav_'+this.win_name+'.style.top = elm_win_frame_'+this.win_name+'.style.top;'
+  s += 'elm_win_nav_'+this.win_name+'.style.left = elm_win_frame_'+this.win_name+'.style.left;'
+
+        //elm_win_frame_title.innerHTML = elm_win_frame.offsetTop + " : " + elm_win_frame.offsetLeft
+        //elm_win_frame_title.innerHTML = elm_win_nav.offsetTop + " : " + elm_win_nav.offsetLeft
+
+  s += '}.bind(elm_win_frame_title_'+this.win_name+', event, elm_win_frame_'+this.win_name+', elm_win_nav_'+this.win_name+'));'
+
+  s += '}.bind(elm_win_frame_title_'+this.win_name+' = this.win_frame_title, event, elm_win_frame_'+this.win_name
+  s += ' = this.win_frame, elm_win_nav_'+this.win_name+' = this.win_nav));'
+  eval(s)
+}
+
+</script>
+
+<script>
+function Whiteboard (win_name_, win_title_, socket, chat_room_name)
+{
+//alert(JSON.stringify(this))
+  this.name = win_name_.toString(); // course_schedule_id
+  this.width_ = "1000"
+  this.height_ = "500"
+  acWin.call(this, win_name=this.name, win_title=win_title_, width=this.width_, height=this.height_, left="100", top="100", is_scroll=false)
+    //this.socket = socket
+    //this.colors = ['black', 'green', 'red', 'blue']
+    this.color_match = {}
+    this.color_match['#000000']= 'black';
+    this.color_match['#008000']= 'green';
+    this.color_match['#ff0000']= 'red';
+    this.color_match['#0000ff']= 'blue';
+    //alert(JSON.stringify(this.color_match))
+    //--
+
+    this.drawing_colors = document.createElement("div");
+    this.drawing_colors.setAttribute("id", "drawing_colors"+this.name)
+    this.win_content.appendChild(this.drawing_colors)
+    //--
+    //alert(this.drawing_colors.outerHTML)
+
+    this.tab_titles = document.createElement("ul");
+    this.tab_titles.setAttribute("id", "titles-" + this.name);
+    this.tab_titles.setAttribute("class", "nav nav-tabs")
+    this.win_content.appendChild(this.tab_titles)
+    //alert(this.tab_titles.outerHTML)
+    //--
+
+    this.board_contents = document.createElement("div");
+    this.board_contents.setAttribute("id", "contents-" + this.name);
+    this.board_contents.setAttribute("class", "tab-content")
+    this.win_content.appendChild(this.board_contents)
+    this.TabObjects = {}
+    //alert(this.board_contents.outerHTML)
+    //alert(this.TabObjects)
+    //alert(JSON.stringify(this.TabObjects))
+    //--
+    this.button_add = document.createElement("button");
+    this.button_add.setAttribute("id", "button_add")
+    this.button_add.setAttribute("class", "button buttonadd")
+    this.button_add.setAttribute("style", "background-color: lightblue;border-radius: 12px;")
+    this.button_add.innerHTML = 'Add Whiteboard'
+    this.n_whiteboard = 1
+    //--
+    this.button_add.addEventListener("click", function(){
+         event.preventDefault();
+         var ss = prompt('Enter Whiteboard name:', '')
+         //null stands for absence of a value. the value is meant to be there but its absent. "" means there is nothing.
+         if(ss != "" && ss != null)
+         {
+           wm.setTab("n_"+wm.n_whiteboard.toString(), ss)
+           wm.setDefaultColors("black")
+           //var dic_ = {'type': 'add_white_board', 'message': wm.n_whiteboard+","+ss}
+           //socket.send(JSON.stringify(dic_))
+           //wm.n_whiteboard += 1
+         }
+      }.bind(cc=this.button_add, event, socket, wm=this));
+    this.drawing_colors.appendChild(this.button_add)
+    //--
+    for(var key in this.color_match)
+    {
+      var c = this.color_match[key];
+      //alert(c)
+      cc = document.createElement("button");
+      cc.setAttribute("id", "id_"+c)
+      cc.setAttribute("class", "button button5")
+      cc.setAttribute("style", "background-color: "+c)
+      //alert(cc.outerHTML)
+      cc.addEventListener("click", function(){
+        event.preventDefault();
+
+        //alert(33)
+        //alert(wm.CurrentWhiteboardTab)
+        //alert(wm.setDefaultColors)
+//alert(event.target.style.backgroundColor)
+//alert(ctx)
+        wm.CurrentWhiteboardTab.ctx.strokeStyle = event.target.style.backgroundColor
+        ss = wm.setDefaultColors(event.target.style.backgroundColor)
+
+<!--        alert(331)-->
+
+        //var dic_ = {'type': 'wc', 'message': ss}
+        //socket.send(JSON.stringify(dic_))
+
+      }.bind(cc, event, socket, wm=this));
+      this.drawing_colors.appendChild(cc)
+    }
+}
+
+//Whiteboard.prototype = Object.create(acWin.prototype)
+
+Whiteboard.prototype.setDefaultColors = function(cc)
+{
+  //alert(cc)
+  //if(cc.indexOf("#") >= 0){cc = this.color_match[cc]}
+    for (key in this.color_match)
+    {
+        c = this.color_match[key]
+        document.getElementById("id_"+c).setAttribute("class", "button button5")
+    }
+    document.getElementById("id_"+cc).setAttribute("class", "button button3")
+
+    //alert(cc)
+    //alert(document.getElementById("id_"+cc).outerHTML)
+    //return cc;
+}
+
+
+//Whiteboard.prototype.duplicate_add_whiteboard = function(n, ss)
+//{
+           //wm.setTab("n_"+n.toString(), ss)
+           //wm.setDefaultColors("black")
+           //wm.n_whiteboard = n*1 + 1
+//}
+
+Whiteboard.prototype.setTab = function(name, title) {
+//alert(JSON.stringify(this))
+     this.TabObjects[name] = new WhiteboardTab(this, name, title, width=this.width_, height=this.height_)
+     var event = new Event("click", {bubbles: false});
+     this.TabObjects[name].tabTitle.dispatchEvent(event)
+     //alert(this.elm_whiteboard.outerHTML)
+}
+
+function WhiteboardTab(parent, name, title, width="1000", height="500", top="15", right="25", background_color="#f1f1f1",background_color_header="#2196F3", border_color="#f1f1f1", header_color="#fff", z_index=10)
+{
+  this.parent=parent; this.name=name; this.title=title;
+  this.width=width; this.height=height;
+  this.background_color=background_color; this.background_color_header=background_color_header;
+  this.border_color=border_color; this.header_color=header_color;this.z_index=z_index;
+  ed_id = "wb_" + this.parent.name + "_" + this.name
+  //alert(ed_id)
+  ed = document.createElement("div"); ed.setAttribute("id", ed_id)
+  // need to fix for language in Arabic
+  s_style = "background-color:"+this.background_color+";z-index:"+this.z_index
+  //alert(s_style)
+  s_style += ";text-align:left;border: 3px solid "+this.border_color+";width:"+this.width+"px; height:"+this.height+"px;"
+  ed.setAttribute("style", s_style)
+  ed.setAttribute("class", "tab-pane fade ")
+  this.parent.board_contents.appendChild(ed)
+  elm_canvas = document.createElement("canvas");
+  elm_canvas.setAttribute("id",this.parent.name+"_"+this.name+"_canvas")
+  elm_canvas.setAttribute("width", this.width)
+  elm_canvas.setAttribute("height", this.height)
+  elm_canvas.setAttribute("class", "pencil")
+  elm_canvas.setAttribute("is_drawing", "false")
+  elm_canvas.setAttribute("style", "border:3px solid #000000")
+  // could be 3d, if you want to make a video game
+  // could be 3d, if you want to make a video game
+  this.ctx = elm_canvas.getContext('2d');
+  this.ctx.lineJoin = 'round'; this.ctx.lineCap = 'round'; this.ctx.lineWidth = 1;
+  this.ctx.strokeStyle = 'black';
+  elm_canvas.setAttribute("lastX", 0)
+  elm_canvas.setAttribute("lastY", 0)
+  //--
+  elm_canvas.setAttribute("obj_name", name)
+  //--
+  elm_canvas.addEventListener('mouseup', (e) => {e.target.setAttribute("is_drawing", "false");});
+  elm_canvas.addEventListener('mouseout', (e) => e.target.setAttribute("is_drawing", "false"));
+  elm_canvas.addEventListener('mousedown', (e) => {
+    elm = e.target; elm.setAttribute("is_drawing", "true");
+    elm.setAttribute("lastX", e.offsetX);
+    elm.setAttribute("lastY", e.offsetY);
+  });
+
+  elm_canvas.addEventListener("mousemove", function(){
+    // stop the function if they are not mouse down
+    elm = event.target
+    is_drawing = elm.getAttribute("is_drawing")
+    if(is_drawing == "false") return;
+
+
+<!--    alert(9)-->
+<!--    alert(obj_name)-->
+<!--    alert(parent.TabObjects[obj_name])-->
+
+    //listen for mouse move event
+    console.log(event);
+    //--
+    ctx = parent.TabObjects[obj_name].ctx
+    //--
+//alert(ctx)
+<!--    alert(91)-->
+    ctx.beginPath();
+    lastX = elm.getAttribute("lastX")
+    lastY = elm.getAttribute("lastY")
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+<!--    alert(92)-->
+    elm.setAttribute("lastX", event.offsetX)
+    elm.setAttribute("lastY", event.offsetY)
+    co = parent.color_match[parent.CurrentWhiteboardTab.ctx.strokeStyle]
+    //alert(co)
+    ss = co + "," + lastX + "," + lastY + "," + event.offsetX + "," + event.offsetY
+//alert(ss)
+<!--    alert(93)-->
+
+   //var dic_ = {'type': 'wm', 'message': ss}
+   //parent.socket.send(JSON.stringify(dic_))
+
+<!--    alert(94)-->
+
+  }.bind(elm_canvas, event, parent, obj_name=name));
+  //--
+  ed.appendChild(elm_canvas)
+  //--
+  e = document.createElement("li")
+  ea = document.createElement("a")
+  ea.setAttribute("id", "tab-" + name)
+  ea.setAttribute("obj_name", name)
+
+  ea.setAttribute("class", "badge badge-pill badge-primary")
+  ea.setAttribute("style", "font-size:20px")
+  ea.setAttribute("href", "#" + ed_id)
+  ea.innerHTML = title
+  e.appendChild(ea)
+  this.parent.tab_titles.insertBefore(e, this.parent.tab_titles.childNodes[0])
+  ea.addEventListener("click", function(){
+    event.preventDefault();
+    elm = event.target; obj_name = elm.getAttribute('obj_name');
+    parent.CurrentWhiteboardTab = parent.TabObjects[obj_name]
+    try {
+      $(this).tab('show');
+    parent.setDefaultColors(parent.CurrentWhiteboardTab.ctx.strokeStyle);
+    var dic_ = {'type': 'wt', 'message': "tab-" + name}
+    parent.socket.send(JSON.stringify(dic_))
+    }
+    catch(err) {alert(err.message);}
+  }.bind(ea, event, parent));
+ this.tabTitle = ea; // document.getElementById("tab-"+this.name)
+ this.tabDoc = ed; //document.getElementById(this.name)
+}
+
+
+socket = null;
+chat_room_name = "test"
+wb_win_b = new Whiteboard(win_name_=123, win_title_="Whiteboard", socket, chat_room_name)
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "base_goblin.html" %}
+
+{% load static %}
+{% block sub_app_toolbar %}
+
+{% endblock sub_app_toolbar %}
+
+{% block body %}
+<br/>
+<br/>
+<br/>
+<br/>
+<h1>View Person info Page</h1>
+
+<a href="{% url 'goblin:home' %}">
+<button style="background-color:lightblue; color:green; cursor:pointer">Back to list</button>
+</a>
+
+<table>
+<tbody>
+
+<tr><th>IDNumber</th> <td>{{citizens.id}}</td></tr>
+<tr><th>FirstName</th><td>{{citizens.first_name}}</td></tr>
+<tr><th>LastName</th> <td>{{citizens.last_name}}</td></tr>
+<tr><th>Country</th><td>{{citizens.country}}</td></tr>
+<tr><th>City</th><td>{{citizens.city}}</td></tr>
+<tr><th>Origin</th><td>{{citizens.origin}}</td></tr>
+<tr><th>DateOfBirth</th><td>{{citizens.date_of_birth}}</td></tr>
+
+</tbody>
+</table>
+
+{% endblock body %}

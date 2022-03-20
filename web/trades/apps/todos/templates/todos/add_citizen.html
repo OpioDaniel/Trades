@@ -1,0 +1,24 @@
+{% extends "base_todos.html" %}
+{% load static %}
+
+{% block body %}
+
+{% if citizens_ %}
+<form action="{% url 'todos:update_detail' citizens_.id %}" method="post">
+    {% csrf_token %}
+    <input name="full_name" type="text" value="{{citizens_.full_name}}"><br>
+    <input name="country" type="text" placeholder="{{citizens_.country}}"><br>
+    <input type="submit" value="Update">
+    <button onclick="window.history.go(-1)">Cancel</button>
+</form><br><br><br>
+
+{% else %}
+<form action="home" method="post">
+    {% csrf_token %}
+    <input name="full_name" type="text" placeholder="full_name"><br>
+    <input name="country" type="text" placeholder="country"><br>
+    <input type="submit" value="submit">
+</form><br><br><br>
+{% endif %}
+
+{% endblock body %}

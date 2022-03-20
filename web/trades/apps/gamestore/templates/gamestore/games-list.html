@@ -1,6 +1,5 @@
 {% load staticfiles %}
 {% load humanize %}
-{% load thumbnail %}
 
 {% load static %}
 
@@ -12,12 +11,7 @@
       <div class='item-box'>
     {% endif %}
         <div class='item-image'>
-
-<!--            <img src="{{ STATIC_URL }}/{{ game.image.url }}" height="100" width="100" /><br/>-->
-
-              {% thumbnail game.image '100x100' crop as gi %}
-                <img src="{{ gi.url }}" >
-
+            <img src="{{ STATIC_URL }}{{ game.image.url }}" height="100" width="100" /><br/>
         </div>
         <div class='item-info'>
             <h3>{{game.name}}</h3>
@@ -26,7 +20,7 @@
             <p>Publisher: {{game.published_by}}</p>
             {% if game.pricelist.price_per_unit %}
               <p class='price'>
-                Price: ${{game.pricelist.price_per_unit|floatformat:2|intcomma}}
+                Price: ${{game.pricelist.price_per_unit|floatformat:2|intcomma }}
               </p>
             {% else %}
             <p class='price'>Price: Not available</p>
@@ -39,4 +33,5 @@
          </a>
       </div>
    {% endfor %}
+</div>
 </div>

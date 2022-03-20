@@ -1,18 +1,27 @@
 {% extends "base_dbillings.html" %}
-{% load thumbnail %}
 
+{% block title %}
+    <title>Customers List </title>
+{% endblock title %}
+
+{% block sub_app_toolbar %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'dbillings:index' %}">Billings</a>
+    </li>
+{% endblock sub_app_toolbar %}
 
 {% block body %}
+<br/>
+<br/>
+<br/>
+<br/>
 
-{{title}}
-<br/><br/>
-
+<h1>Customers List</h1>
+<br/>
 <a href="{% url 'dbillings:create_customer' %}">
-    <span class="badge badge-pill badge-primary" style="font-size:20px">Create New Customer</span>
+    <input type="button" value="Create New Customer"> </input>
 </a>
-
 <div class="w3-responsive">
-
 <table  class="w3-table-all w3-hoverable" style="width:40%">
     <thead>
       <tr class="w3-light-blue">
@@ -23,19 +32,30 @@
         <th>Delete</th>
       </tr>
     </thead>
-
-{% for customer in customers %}
+    {% for c in customers %}
     <tr>
-        <td>{{ customer.customer_number}}</td>
-        <td>{{ customer.first_name}} {{ customer.last_name}}</td>
-        <td>view btn</td>
-        <td>updat btn</td>
-        <td>delete btn</td>
-    </tr>
-{% endfor %}
-
-
+        <td>{{ c.customer_number }}</td>
+        <td>{{ c.first_name }} {{ c.last_name }}</td>
+        <td>
+            {{customer.customer_number}}
+            <a href="{% url 'dbillings:detailed_customer' c.customer_number %}">
+             <span class="badge badge-pill badge-info">View</span>
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'dbillings:update_customer' c.customer_number %}">
+            <span class="badge badge-pill badge-primary">Update</span>
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'dbillings:delete_customer' c.customer_number %}">
+            <span class="badge badge-pill badge-warning">Delete</span>
+            </a>
+        </td>
+        </tr>
+    {% empty %}
+        <li>No customers yet.</li>
+    {% endfor %}
 </table>
-
-
+</div>
 {% endblock body %}

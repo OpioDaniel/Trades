@@ -1,0 +1,92 @@
+{% load static %}
+<html>
+<head>
+ <style>
+
+.pencil {
+  cursor: crosshair;
+<!--  cursor: url({% static "main/pencil.png" %}) 5 5, pointer;-->
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button3 {border-radius: 30%;}
+.button5 {border-radius: 50%;}
+.buttonadd {border-radius: 50%;padding: 8px;margin: 10px 20px;}
+
+
+    </style>
+</head>
+
+<body id="body0">
+
+<script>
+function acWin(win_name="none", win_title="none", width="500", height="300", left="0", top="0", is_scroll=true)
+{
+  var win_frame = document.createElement("div");
+  win_frame.setAttribute("id", "win_frame_"+win_name);
+  var style_frame = "position: fixed; background-color: white; z-index: 11; text-align: left;"
+  style_frame += "height:"+height+"px;width:"+width+"px;font-size:12px;"
+  style_frame += "border:2px solid #0094ff;"
+  style_frame += "border-top-left-radius:35px;border-top-right-radius:35px;"
+  style_frame += "left:"+left+";top:"+top+";"
+  win_frame.setAttribute("style", style_frame);
+
+  var title_height = 25
+  var win_frame_title = document.createElement("div");
+  win_frame_title.setAttribute("id", "win_frame_title_"+win_name);
+  var style_title = "text-align:center;display:block;padding:4px;color:#fff;margin:-1 0 0 0;height:"+title_height+"px;z-index:11;"
+  style_title += "background-color:#2196F3;color:#fff;cursor:move;font-size:12pt;border-top-left-radius:35px;border-top-right-radius:35px;"
+  win_frame_title.setAttribute("style", style_title);
+  win_frame_title.innerHTML = win_title
+  win_frame.appendChild(win_frame_title)
+
+  var win_frame_ico = document.createElement("img");
+  win_frame_ico.setAttribute("src", "http://www.academycity.org/static/core/globs.jpg");
+  win_frame_ico.setAttribute("style", "border-radius: 10px; position: absolute; left: 30");
+  win_frame_ico.setAttribute("height", "20");
+  win_frame_ico.setAttribute("width", "20");
+  win_frame_title.appendChild(win_frame_ico)
+
+  body_ = document.getElementById("body0")
+  body_.appendChild(win_frame)
+
+win_frame_title.addEventListener("mousedown", function(){
+event.preventDefault();
+win_frame_title.setAttribute("pos3", event.clientX);
+win_frame_title.setAttribute("pos4", event.clientY);
+document.addEventListener("mouseup", my_mouse_up_ = function(){
+event.preventDefault();
+ document.removeEventListener("mousemove", my_mouse_move_);
+   });
+document.addEventListener("mousemove", my_mouse_move_ = function(){
+event.preventDefault();
+  var pos3_ = win_frame_title.getAttribute("pos3");
+  var pos4_ = win_frame_title.getAttribute("pos4");
+  var pos1 = pos3_ - event.clientX;
+  var pos2 = pos4_ - event.clientY;
+  var pos3 = event.clientX;
+  var pos4 = event.clientY;
+  win_frame_title.setAttribute("pos3", pos3);
+  win_frame_title.setAttribute("pos4", pos4);
+  win_frame.style.top = (win_frame.offsetTop - pos2) + "px";
+  win_frame.style.left = (win_frame.offsetLeft - pos1) + "px";
+  });
+
+});
+}
+acWin(win_name="none",win_title='whiteboard')
+</script>
+
+</body>
+</html>

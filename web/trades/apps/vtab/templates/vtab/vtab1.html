@@ -1,0 +1,51 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    .tab button:hover {
+     background-color: blue;
+     transition: 0.3s;
+     }
+     .tab button.active {
+     background-color: green;
+     }
+</style>
+</head>
+<body id="bdy">
+
+<script src="{% static 'js/academycity/advanced_tabs_demo.js' %}"></script>
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'js/npm/cookie/js.cookie.min.js' %}"></script>
+<script>
+var csrftoken = Cookies.get('csrftoken');
+function csrfSafeMethod(method) {
+// these HTTP methods do not require CSRF protection
+return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+beforeSend: function(xhr, settings) {
+  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  }
+}
+});
+
+$(document).ready(function(){
+  var {{atm_name}} = new AdvancedTabs(
+                        my_name = '{{atm_name}}',
+                        bdy = document.getElementById('bdy'),
+                        activate_function_link = '{% url 'vtab:activate_function' %}',
+                        )
+
+{% block domready %}
+{% endblock %}
+});
+</script>
+</body>
+</html>

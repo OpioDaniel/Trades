@@ -9,5 +9,5 @@ class Item(models.Model):
 class TeamMembers(models.Model):
     first_name = models.CharField(max_length=50, blank=False, null=False)
     last_name = models.CharField(max_length=50, blank=False, null=False)
-    image = models.ImageField(upload_to='todo/', default='todo/unknown.png')
+    image = models.ImageField(upload_to='shoes/', default='shoes/unknown.png')
 

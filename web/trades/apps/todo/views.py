@@ -14,18 +14,10 @@ def member(request, pk):
 
 
 def index(request):
-    print('-'*50)
-    print('-'*50)
-    print(request.method)
-    print('-'*50)
-    print('-'*50)
     if request.method == 'POST':
         text_ = request.POST['item_text']
-        print('='*50)
         print(text_)
-        print('='*50)
         Item.objects.create(text=text_)
-
     items = Item.objects.all()
     return render(request, 'todo/index.html', {'items': items})
 

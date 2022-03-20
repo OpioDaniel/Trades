@@ -1,0 +1,145 @@
+{% extends "base_bless.html" %}
+{% load static %}
+
+
+{% block body %}
+<script>
+    re_calculate = function()
+    {
+    var value_percent = 100;
+    cash.value = parseInt(cashA.value) - parseInt(paid.value) + parseInt(cashB.value)
+    debt.value = parseInt(debtA.value) + parseInt(debtB.value)
+    assets.value = parseInt(assetsA.value) + parseInt(assetsB.value)
+    minority.value = ( parseInt(value_percent) - parseInt(percentage.value) )/parseInt(value_percent) * parseInt(equityB.value)
+    goodwill.value = parseInt(paid.value) - ( parseInt(percentage.value)/parseInt(value_percent) ) * parseInt(equityB.value)
+    equity.value = parseInt(equityA.value)
+    }
+
+</script>
+
+<script>
+    case_studies = function()
+    {
+   var elm = event.target
+   //alert(ev_.outerHTML)
+   s = "a =" + elm.getAttribute("account") ;
+   eval(s)
+   /alert(s)
+   for( i in a){
+   //alert(a)
+   alert(i), alert(a[i]);
+   sa = i + ".value =  parseInt(i.value = 0 ) + parseInt(a[i])"
+   //alert(sa)
+   eval(sa)
+   }
+re_calculate()
+    }
+</script>
+<div oninput="re_calculate()">
+
+<div>
+<table>
+    <thead>
+    <th> Company A</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Cash</td>
+        <td><input id="cashA" value="500"></td>
+        <td>Debt</td>
+        <td><input id="debtA" value="700"></td>
+    </tr>
+
+    <tr>
+        <td>Equity</td>
+        <td><input id="equityA" value="300"></td>
+        <td>Assets</td>
+        <td><input id="assetsA" value="500"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+<div>
+<table>
+    <thead>
+    <th> Company B</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Cash</td>
+        <td><input id="cashB" value="500"></td>
+        <td>Debt</td>
+        <td><input id="debtB" value="700"></td>
+    </tr>
+
+    <tr>
+        <td>Equity</td>
+        <td><input id="equityB" value="300"></td>
+        <td>Assets</td>
+        <td><input id="assetsB" value="500"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+<div>
+<table>
+    <thead>
+    <th> Consolidated A</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Debt</td>
+        <td><input id="debt" value="1400"></td>
+        <td>Cash</td>
+        <td><input id="cash" value="700"></td>
+    </tr>
+
+    <tr>
+        <td>Minority interest</td>
+        <td><input id="minority" value="60"></td>
+        <td>Assets</td>
+        <td><input id="assets" value="1000"></td>
+    </tr>
+
+    <tr>
+        <td>Equity</td>
+        <td><input id="equity" value="300"></td>
+        <td>Goodwill</td>
+        <td><input id="goodwill" value="160"></td>
+    </tr>
+
+    </tbody>
+</table>
+</div>
+
+<div>
+<table onclick="case_studies()">
+    <thead>
+    <th>Payment</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Company A paid</td>
+        <td><input id="paid" value="300"></td>
+    </tr>
+    <tr>
+        <td>(%)Percentage</td>
+        <td><input id="percentage" value="80"></td>
+    </tr>
+
+    <tr>
+    <td class="account"  style="background-color:#3366ff; cursor: pointer;"
+      account="{ 'paid': 300,'percentage': 100 }">
+        Buying 100% Share of Company B at 300
+    </td>
+    </tr>
+
+    </tbody>
+</table>
+
+</div>
+
+</div>
+{% endblock body %}

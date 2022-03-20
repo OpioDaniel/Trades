@@ -1,0 +1,69 @@
+{% extends "base_goblin.html" %}
+
+{% block sub_app_toolbar %}
+
+
+{% endblock sub_app_toolbar %}
+
+{% block body %}
+
+<h1>List Of Citizens</h1>
+<!--<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="first_name" placeholder="first_name" required><br>
+    <input type="text" name="last_name" placeholder="last_name" required><br>
+    <input type="text" name="country" placeholder="country" required><br>
+    <input type="text" name="city" placeholder="city" required><br>
+    <input type="text" name="origin" placeholder="origin" required><br>
+    <input type="date" name="date_of_birth"><br>
+    <input type="submit" value="save">
+</form> <br><br>  -->
+<a href="{% url 'goblin:add_list' %}">
+    <button style="background-color:black; color:white; border-radius:60px; cursor:pointer">Add List</button>
+</a>
+<table>
+<tbody>
+<thead>
+<th>IDNo.</th>
+<th>FirstName</th>
+<th>LastName</th>
+<th>Country</th>
+<th>City</th>
+<th>Origin</th>
+<th>DateOfBirth</th>
+<th>View</th>
+<th>Update</th>
+<th>Delete</th>
+</thead>
+
+{% for citizen in citizens %}
+<tr>
+    <td>{{citizen.id}}</td>
+    <td>{{citizen.first_name}}</td>
+    <td>{{citizen.last_name}}</td>
+    <td>{{citizen.country}}</td>
+    <td>{{citizen.city}}</td>
+    <td>{{citizen.origin}}</td>
+    <td>{{citizen.date_of_birth}}</td>
+    <td>
+       <a href="{% url 'goblin:results' citizen.id %}">
+        <button style="border-radius:100px; background-color:lightblue; cursor:pointer">View</button>
+       </a>
+    </td>
+
+    <td>
+       <a href="{% url 'goblin:edit_list' citizen.id %}">
+        <button style="border-radius:100px; background-color:lightblue; cursor:pointer">Update</button>
+       </a>
+    </td>
+
+    <td>
+       <a href="{% url 'goblin:delete_list' citizen.id %}">
+        <button style="border-radius:100px; background-color:lightblue; cursor:pointer">Delete</button>
+       </a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock body %}

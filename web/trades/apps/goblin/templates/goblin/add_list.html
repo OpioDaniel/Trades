@@ -1,0 +1,43 @@
+{% extends "base_goblin.html" %}
+
+{% block sub_app_toolbar %}
+
+<li class="nav-item">
+      <a class="nav-link" href="{% url 'goblin:home' %}">Goblin</a>
+ </li>
+{% endblock sub_app_toolbar %}
+
+{% block body %}
+<br/>
+<br/>
+<br/>
+<br/>
+<h1>Welcome to the Goblin app</h1>
+
+{% if citizens_ %}
+
+<form action="{% url 'goblin:update_list' citizens_.id%}" method="post">
+    {% csrf_token %}
+    <input type="text" name="first_name"   value="{{citizens_.first_name}}" placeholder="first_name" required><br>
+    <input type="text" name="last_name" value="{{citizens_.last_name}}" placeholder="last_name" required><br>
+    <input type="text" name="country" value="{{citizens_.country}}" placeholder="country" required><br>
+    <input type="text" name="city"  value="{{citizens_.city}}" placeholder="city" required><br>
+    <input type="text" name="origin" value="{{citizens_.origin}}" placeholder="origin" required><br>
+    <input type="date" name="date_of_birth"><br>
+    <input type="submit" value="update" style="background-color:black; color:white; cursor:pointer"><input type="button" value="Cancel" style="color:red; cursor:pointer" onclick="window.history.go(-1);"/>
+</form> <br><br>
+
+{% else %}
+<form action="home" method="post">
+    {% csrf_token %}
+    <input type="text" name="first_name" placeholder="first_name" required><br>
+    <input type="text" name="last_name" placeholder="last_name" required><br>
+    <input type="text" name="country" placeholder="country" required><br>
+    <input type="text" name="city" placeholder="city" required><br>
+    <input type="text" name="origin" placeholder="origin" required><br>
+    <input type="date" name="date_of_birth"><br>
+    <input type="submit" value="save" style="color:green"><input type="button" value="Cancel" style="color:red" onclick="window.history.go(-1);"/>
+</form> <br><br>
+{% endif %}
+
+{% endblock body %}

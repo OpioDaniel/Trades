@@ -6,8 +6,9 @@
 
 {% block body %}
 <div class="container">
-    <h3>Customer Information (<a href="{% url 'dbillings:list_Customer' %}" >Back to Customer List</a>)</h3>
+    <h1>Customer Information (<a href="{% url 'dbillings:list_Customer' %}" >back</a>)</h1>
     <hr/>
+
     <table  class="w3-table-all w3-hoverable" style="width:50%">
     <tbody>
         <tr>
@@ -17,6 +18,7 @@
             <th>Last Name</th><td> {{ customer.last_name }}</td>
         </tr>
     </tbody>
+
     <tfoot>
 
     </tfoot>

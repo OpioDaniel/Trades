@@ -1,21 +1,17 @@
 {% extends "base_dbillings.html" %}
-{% load thumbnail %}
 
 
 {% block sub_app_toolbar %}
     <li class="nav-item">
       <a class="nav-link" href="{% url 'dbillings:list_Customer' %}">Customers</a>
     </li>
-{% endblock sub_app_toolbar %}
 
+{% endblock sub_app_toolbar %}
 
 {% block body %}
 <br/>
 <br/>
 <br/>
 <br/>
-
-<h1>Welcome to the DBilling app today</h1>
-
-
+<h1>Welcome to the DBilling app</h1>
 {% endblock body %}

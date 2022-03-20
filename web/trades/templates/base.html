@@ -2,6 +2,7 @@
 <html>
   <head>
       {% load static %}
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0", shrink-to-fit=yes">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,24 +14,21 @@
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-
     <link href="{% static 'styles/site.css' %}" rel='stylesheet'>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
     {% block title %}
       <title>Base</title>
     {% endblock title%}
   </head>
-
-  <body id="body0">
+  <body>
     <div class="wrapper">
       <nav id="sidebar">
         <div class="sidebar-header">
           <a href="/" ><h5>
               <img src="{% static "main/option_logo.jpg" %}"
-              alt="My image"  height="40" width="60"><br/>
-              SE - Certificate 1
+              alt="My image"  height="40" width="60">
+              OptionTrading
           </h5></a>
               {{ user.first_name }} {{ user.last_name }}
         </div>
@@ -125,7 +123,7 @@
          {% endif %}
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="{% static "doc/Registrations.docx" %}" class="download">How to register to App</a>
+                    <a href="{% static "doc/Registrations.docx" %}" class="download">How to register</a>
                 </li>
             </ul>
       </nav>
@@ -140,18 +138,20 @@
                 <!-- <span>Toggle Sidebar</span>  -->
             </button>
 
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
+
             <!-- Login;  Log off -->
             {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 {% block app_toolbar %}
                 {% endblock app_toolbar %}
-
                 {% block sub_app_toolbar %}
                 {% endblock sub_app_toolbar %}
-
-              <li>
-                  <a class="nav-link" href="{% url 'main:logout' %}">Log off</a>
-              </li>
+              <li><a class="nav-link" href="{% url 'main:logout' %}">Log off</a></li>
             </ul>
             {% else %}
             </ul>
@@ -166,10 +166,20 @@
         </nav>
 
         <!-- Page body Content  -->
-        {% block body %}
-            <h1>Welcome to the trade project</h1>
-        {% endblock %}
 
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <il class="{{ message.tages }}">
+                    {{ message|safe }}
+                    <a href="/" class="close">X</a>
+                </il>
+                {% endfor %}
+            </ul>
+        {% endif %}
+          {% block body %}
+<!--          <h1>Amos</h1>-->
+          {% endblock %}
       </div>
     </div>
 
@@ -192,10 +202,23 @@
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-    {% block add_js %}
-    {% endblock add_js %}
+    <script src="{% static 'js/js.cookie.min.js' %}"></script>
+    <script src="{% static 'js/plotly-latest.min.js' %}"></script>
 
     <script type="text/javascript">
+
+      var csrftoken = Cookies.get('csrftoken');
+                  function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                  }
+                  $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                      }
+                    }
+                  });
 
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({
@@ -210,7 +233,44 @@
 
             {% block domready %}
             {% endblock %}
+
         });
     </script>
+
+<!--   weather script-->
+  <script>
+function drawWeather( d ) {
+    var elm_weather = document.getElementById("weather")
+    var elm_description = document.getElementById('description')
+   var celcius = Math.round(parseFloat(d.main.temp)-273.15);
+   var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32);
+   var description = d.weather[0].description;
+   document.getElementById('temp').innerHTML = celcius + '&deg;';
+   //alert(description)
+
+   if( description.indexOf('rain') > 0 ) {
+   elm_weather.className = 'rainy';
+   elm_description.className = 'fa fa-umbrella';
+   elm_description.style.color = 'blue'
+  } else if( description.indexOf('cloud') > 0 ) {
+   elm_weather.className = 'cloudy';
+   elm_description.className = 'fa fa-cloud';
+   elm_description.style.color = 'lightblue'
+  } else if( description.indexOf('sunny') > 0 ) {
+   elm_weather.className = 'sunny';
+   elm_description.className = 'fa fa-sun-o';
+   elm_description.style.color = 'yellow'
+  }
+}
+function weatherBalloon( city_name ) {
+fetch('https://api.openweathermap.org/data/2.5/weather?q='+city_name+',ug&APPID=304ebb0a5c256b56de3aa522013dbe66')
+  .then(response => response.json())
+  .then(data => {drawWeather(data);
+  });
+}
+weatherBalloon('{{district}}')
+
+</script>
+<!-- end of weather script-->
   </body>
 </html>

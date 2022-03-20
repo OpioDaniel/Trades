@@ -1,0 +1,79 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 6px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<h1>Registration in Progress</h1>
+<table>
+    <tbody>
+    <tr>
+        <th>IDNumber</th>
+       <th>FirstName</th>
+       <th>LastName</th>
+       <th>Gender</th>
+       <th>Subjects</th>
+       <th>Level</th>
+       <th>Former School</th>
+    </tr>
+
+{% for student in students %}
+    <tr>
+       <td>{{student.id}}</td>
+       <td>{{student.first_name}}</td>
+        <td>{{student.last_name}}</td>
+        <td>{{student.gender}}</td>
+        <td>{{student.subjects}}</td>
+        <td>{{student.levels}}</td>
+        <td>{{student.former_school}}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br><br>
+<form action="" method="post">
+    {% csrf_token %}
+    <label for="html">FirstName:</label><br>
+    <input type="text" name="first_name" placeholder="Enter your First_name" required><br>
+    <label for="html">LastName:</label><br>
+    <input type="text" name="last_name" placeholder="Enter your Fast_name" required><br>
+
+    <label for="html">Subjects:</label><br>
+    <input type="text" name="subjects" value="{{subjects.subjects}}" ><br>
+
+    <label for="html">Levels:</label><br>
+    <input type="text" name="levels" value="{{levels.level_name}}" ><br>
+    <label for="html">Former School:</label><br>
+    <input type="text" name="former_school" placeholder="Enter your Former School" required>
+     <p>Please select your Gender:</p>
+    <input type="radio" id="html" name="gender" value="Male">
+    <label for="html">Male</label><br>
+    <input type="radio" id="css" name="gender" value="Female">
+    <label for="css">Female</label><br>
+
+    <input type="submit" value="Register"><br>
+</form>
+</body>
+</html>

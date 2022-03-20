@@ -11,21 +11,36 @@ SECRET_KEY = os.environ.get(
 
 
 INSTALLED_APPS = (
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
-
     'easy_thumbnails',
-
+    'trades.apps.fabhouse',
     'trades.apps.main',
     'trades.apps.todo',
     'trades.apps.dbillings',
     'trades.apps.gamestore',
-    'trades.apps.ugandatowns'
+    'trades.apps.ugandatowns',
+    'trades.apps.bizland',
+    'trades.apps.ueconomics',
+    'trades.apps.core',
+    'trades.apps.goblin',
+    'trades.apps.sampleapp',
+    'trades.apps.bless',
+    'trades.apps.student',
+    'trades.apps.todos',
+    'trades.apps.text',
+    'trades.apps.control',
+    'trades.apps.registration',
+    'trades.apps.apewives',
+    'trades.apps.bizlandpractice',
+    'trades.apps.vtab',
+
+
 )
 
 MIDDLEWARE = (
@@ -99,7 +114,6 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 # print('---STATICFILES_DIRS---')
 # print(STATICFILES_DIRS)
-
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(WEB_DIR, "static")
 
@@ -119,7 +133,13 @@ LOGIN_EXEMPT_URLS = (
 )
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'amos@DrBaranes.com'
-EMAIL_HOST_PASSWORD = 'Amos122#'
+EMAIL_HOST_USER = 'danielopio540@gmail.com'
+EMAIL_HOST_PASSWORD = 'fojxpnqqgswwqokr'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'todos@DrBaranes.com'
+# EMAIL_HOST_PASSWORD = 'Amos122#'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True

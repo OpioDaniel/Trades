@@ -6,7 +6,7 @@ from django.db.models import Count
 class GamePlatform(models.Model):
     name = models.CharField(max_length=100)
 
-    def __str__(self):
+    def str__(self):
         return self.name
 
 
@@ -26,11 +26,22 @@ class Game(models.Model):
         ordering = ['-highlighted', 'name']
 
     name = models.CharField(max_length=100)
+
     release_year = models.IntegerField(null=True)
+
     developer = models.CharField(max_length=100)
+
     published_by = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='gamestore/', default='gamestore/placeholder.png', max_length=100)
-    gameplatform = models.ForeignKey(GamePlatform, null=False, on_delete=models.CASCADE)
+
+    image = models.ImageField(
+        upload_to='gamestore/',
+        default='gamestore/placeholder.png',
+        max_length=100)
+
+    gameplatform = models.ForeignKey(GamePlatform,
+                                     null=False,
+                                     on_delete=models.CASCADE)
+
     highlighted = models.BooleanField(default=False)
 
     objects = GameManager()
@@ -41,9 +52,16 @@ class Game(models.Model):
 
 class PriceList(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
+
     last_updated = models.DateTimeField(auto_now=True)
-    price_per_unit = models.DecimalField(max_digits=9, decimal_places=2, default=0)
-    game = models.OneToOneField(Game, on_delete=models.CASCADE, primary_key=True)
+
+    price_per_unit = models.DecimalField(max_digits=9,
+                                         decimal_places=2, default=0)
+
+    game = models.OneToOneField(
+        Game,
+        on_delete=models.CASCADE,
+        primary_key=True)
 
     def __str__(self):
         return self.game.name
@@ -71,7 +89,10 @@ class ShoppingCartManager(models.Manager):
 
 
 class ShoppingCart(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             null=False,
+                             on_delete=models.CASCADE)
+
     objects = ShoppingCartManager()
 
     def __str__(self):
@@ -93,8 +114,18 @@ class ShoppingCartItemManager(models.Manager):
 
 class ShoppingCartItem(models.Model):
     quantity = models.IntegerField(null=False)
-    price_per_unit = models.DecimalField(max_digits=9, decimal_places=2, default=0)
-    cart = models.ForeignKey(ShoppingCart, null=False, on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, null=False, on_delete=models.CASCADE, related_name='items')
+
+    price_per_unit = models.DecimalField(max_digits=9,
+                                         decimal_places=2,
+                                         default=0)
+
+    cart = models.ForeignKey(ShoppingCart,
+                             null=False,
+                             on_delete=models.CASCADE)
+
+    game = models.ForeignKey(Game,
+                             null=False,
+                             on_delete=models.CASCADE,
+                             related_name='items')
 
     objects = ShoppingCartItemManager()

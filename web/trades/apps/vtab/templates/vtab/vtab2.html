@@ -1,0 +1,170 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+
+    .tab button:hover {
+
+     background-color: red;
+     transition: 0.3s;
+     }
+
+     .tab button.active {
+     background-color: purple;
+
+     }
+</style>
+</head>
+<body>
+<button onclick="add_button(event)">Add Button</button>
+<button onclick="activate_function(event)">Test</button>
+<div id="tab_container"  class="tab">
+</div>
+
+<div id="tab_contents">
+</div>
+
+<script>
+function create_btn(tab_name,tab_id,div_text)
+{
+var tab_container = document.getElementById('tab_container')
+var btn = document.createElement('button')
+btn.setAttribute('class', "tablinks")
+btn.innerHTML = tab_name
+btn.setAttribute('city_name', tab_name)
+btn.setAttribute('tab_id', tab_id)
+btn.onclick = function openCity(event){
+//alert(111)
+     var elm = event.target
+     elm.getAttribute('tab_id')
+     var tabcontent = document.getElementsByClassName("tabcontent");
+     for(i=0; i<tabcontent.length; i++){
+     tabcontent[i].style.display = 'none';
+     }
+//alert(222)
+    var tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+//alert(333)
+    document.getElementById(tab_id).style.display = "block";
+    event.currentTarget.className += " active";
+//alert(444)
+}
+
+var info_ = {}
+$.post('{% url 'vtab:activate_function'%}',
+        {'tab_name_cl':'AdvancedTab',
+         'fun':'get_tabs_from_table',
+         'info':JSON.stringify(info_)
+
+        },
+        function(result_)
+        {
+        //alert(result_['result']['tab_name'])
+        }
+)
+
+tab_container.appendChild(btn)
+
+var tab_contents = document.getElementById('tab_contents')
+var div = document.createElement('div')
+div.setAttribute('class', "tabcontent")
+div.innerHTML = div_text
+div.setAttribute('id', tab_id)
+tab_contents.appendChild(div)
+
+var txt = document.createElement('textarea')
+btn.click()
+//alert(div.outerHTML)
+
+//alert(btn.outerHTML)
+}
+</script>
+
+<script>
+function add_button(event){
+    var tab_name_ = prompt("Enter name for new tab:" , '')
+    if(tab_name_ == '') {alert("Please enter a tab name"); return;}
+    $.post('{% url "vtab:add_tab" %}',
+          {
+            tab_name: tab_name_,
+          },
+          function(dic){
+            var tab_id_ = dic["tab_id"];
+            alert(tab_id_)
+            create_btn(tab_name_, tab_id)
+          }
+          );
+
+}
+</script>
+
+<script>
+function get_tabs_from_table()
+{
+
+ $.post('{% url "vtab:get_tabs_from_table" %}',
+      {},
+      function(dic){
+          for (id in dic)
+          {
+            create_btn(tab_name=dic[id]["tab_name"], tab_id=id,div_text=dic[id]["tab_text"])
+          }
+          document.getElementById('tab_container').children[0].click()
+     }
+ );
+}
+</script>
+
+<script>
+function activate_function(event){
+var info_ = {'age':50}
+    $.post('{% url "vtab:activate_function" %}',
+          {
+            tab_name_cl: "AdvancedTab",
+            fun:"get_tabs",
+            info:JSON.stringify(info_)
+          },
+          function(result_){
+          alert(result_)
+          alert(JSON.stringify(result_))
+          });
+
+    }
+</script>
+
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'js/npm/cookie/js.cookie.min.js' %}"></script>
+<script>
+
+var csrftoken = Cookies.get('csrftoken');
+function csrfSafeMethod(method) {
+// these HTTP methods do not require CSRF protection
+return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+beforeSend: function(xhr, settings) {
+  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  }
+}
+});
+
+$(document).ready(function(){
+
+get_tabs_from_table();
+
+{% block domready %}
+{% endblock %}
+});
+</script>
+
+</body>
+</html>

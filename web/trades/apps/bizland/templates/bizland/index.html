@@ -1,0 +1,607 @@
+{% extends "base_bizland.html" %}
+{% load static %}
+
+{% block title %}
+<title>{{ company.company_name }}</title>
+{% endblock%}
+
+
+
+{% block body_content %}
+
+  <!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center">
+          <a href="mailto:contact@example.com">{{ company.contact_email_header }}</a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>{{ company.phone }}</span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="/" style="color:blue">{{ company.company_name}}<span>.</span></a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="/" class="logo" ><img src="{{ company.logo_image.url}}" alt="" width="50px"  height="250px" ></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 2</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+   <!-- ======= Hero Section ======= -->
+
+ <section id="hero"  class="d-flex align-items-center" style="background: url({{company.hero_image.url}}) top left no-repeat; background-size:100%;">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100" >
+      <h1  style="margin-top:700px; color:black">Welcome to<span style="color:white"> {{company.hero_title}}</span></h1>
+      <h2 style="margin-bottom:200px; color:black">{{company.hero_description}}</h2>
+      <div class="d-flex">
+        <a href="#about" class="btn-get-started scrollto" style="margin-bottom:750px;">{{company.hero_sub_title}}</a>
+        <a href="{{company.hero_youtube_link}}" class="glightbox btn-watch-video" style="margin-bottom:750px;"><i class="bi bi-play-circle"></i><span>{{company.hero_watch_title}}</span></a>
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services";>
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          {% for q in company.l_service.all %}
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="{{ q.l_service_data_delay }}">
+              <div class="icon"><i class="{{  q.icon_name }}"></i>
+              </div>
+              <h4 class="title"><a href="">{{ q.l_service_header }}</a></h4>
+              <p class="description">{{ q.l_service_description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- End Featured Services Section -->
+
+   <!-- ======= About Section ======= -->
+    <section id="about" class="about section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>About</h2>
+          <h3>Find Out More <span>{{ company.about_title }}</span></h3>
+          <p>{{ company.about_description }}</p>
+        </div>
+        <div class="row">
+
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+            <img src="{{ MEDIA_URL }}{{ company.about_image.url }}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="100">
+            <h3>{{ company.about_header }}</h3>
+            <p class="fst-italic">{{ company.about_header_description }}</p>
+            {% for q in company.about.all %}
+            <ul>
+              <li>
+                <i class="{% if  q.about_id == 1 %}bx bx-store-alt  {% else %}bx bx-images {% endif %}"></i>
+                <div>
+                  <h5>{{ q.about_header1 }}</h5>
+                  <p>{{ q.about_description1 }}</p>
+                </div>
+              </li>
+            </ul>
+              {% endfor %}
+            <p>
+              {{ company.about_description2 }}
+            </p>
+          </div>
+        </div>
+      </div>
+      </section>
+
+    <!-- End About Section -->
+
+
+
+<!-- ======= Skills Section ======= -->
+    <section id="skills" class="skills">
+      <div class="container" data-aos="fade-up">
+        <div class="row skills-content">
+          {% for q in company.skill.all %}
+          <div class="col-lg-6">
+            <div class="progress">
+              <span class="skill">{{ q.skill_name }} <i class="val">{{ q.skill_counter }}%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ q.skill_counter }}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- End Skills Section -->
+
+
+    <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts">
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          {% for q in company.count.all %}
+          <div class="{{  q.class_style }} ">
+            <div class="count-box">
+              <i class="{{  q.icon_name }}"></i>
+              <span data-purecounter-start="0" data-purecounter-end="{{ q.data_pure_counter_end }}" data-purecounter-duration="1" class="purecounter"></span>
+              <p>{{ q.counts_title }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+<!-- End Counts Section -->
+
+   <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients section-bg">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="row">
+          {% for q in company.client.all %}
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="{{ MEDIA_URL }}{{ q.client_image.url }}" class="img-fluid" alt="">
+          </div>
+          {% endfor %}
+       </div>
+     </div>
+    </section><!-- End Clients Section -->
+
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>{{ company.service_title }}</h2>
+          <h3>Check our <span>{{ company.service_title }}</span></h3>
+          <p>{{ company.service_description }}</p>
+        </div>
+
+        <div class="row">
+          {% for q in company.service.all %}
+          <div class="{{  q.class_style }}" data-aos="zoom-in" data-aos-delay="{{ q.service_data_delay }}">
+            <div class="icon-box">
+              <div class="icon">
+                <i class="{{  q.icon_name }}"></i>
+              </div>
+              <h4><a href="">{{ q.service_header }}</a></h4>
+              <p>{{ q.service_description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  <!-- End Services Section -->
+
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials" style="background: url({{company.testimonial_background_image.url}}) no-repeat; background-size:100%;">
+      <div class="container" data-aos="zoom-in">
+        <div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+            {% for q in company.testimonial.all %}
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="{{ MEDIA_URL }}{{ q.testimonial_image.url }}" class="testimonial-img" alt="">
+                <h3>{{ q.testimonial_name }}</h3>
+                <h4>{{ q.testimonial_rank }}</h4>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  {{q.testimonial_description}}
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+             {% endfor %}
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+    <!-- End Testimonials Section -->
+
+
+
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>{{company.portfolio_title}}</h2>
+          <h3>Check our <span>{{company.portfolio_title}}</span></h3>
+          <p>{{company.portfolio_description}}</p>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              {% for portfolio_link in portfolio_links %}
+              <li data-filter=".filter-{{portfolio_link.li_port_name}}">{{portfolio_link.li_port_name_capital}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+         {% for port in portfolios %}
+          <div class="col-lg-4 col-md-6 portfolio-item filter-{{port.port_name}}">
+            <img src="{{port.port_image.url}}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>{{port.port_name_capital}}</h4>
+              <p>{{port.port_name}}</p>
+              <a href="{{port.port_image.url}}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{port.port_name_capital}}">
+                <i class="bx bx-plus"></i></a>
+              <a href="portfolio-details.html" class="details-link" title="More Details">
+                <i class="bx bx-link"></i></a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- End Portfolio Section -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Team</h2>
+          <h3>Our Hardworking <span>{{ company.team_title }}</span></h3>
+          <p>{{ company.team_description }}</p>
+        </div>
+
+          <div class="row">
+           {% for q in company.team.all %}
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ q.team_data_delay }}">
+            <div class="member">
+              <div class="member-img">
+                <img src="{{ MEDIA_URL }}{{ q.Image.url }}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>{{ q.name }}</h4>
+                <span> {{ q.rank_title }}</span>
+              </div>
+            </div>
+          </div>
+         {% endfor %}
+       </div>
+    </div>
+    </section>
+    <!-- End Team Section -->
+
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>{{ company.pricing_title }}</h2>
+          <h3>Check our <span>{{ company.pricing_title }}</span></h3>
+          <p>{{ company.pricing_description }}</p>
+        </div>
+        <div class="row">
+          {% for q in company.pricing.all %}
+          <div class=" {% if  q.row_id == 1 %}col-lg-3 col-md-6 {% elif  q.row_id == 2 %}col-lg-3 col-md-6 mt-4 mt-md-0 {% else %} col-lg-3 col-md-6 mt-4 mt-lg-0 {% endif %}" data-aos="fade-up" data-aos-delay="{{ q.price_data_delay }}">
+            <div class="{% if  q.row_id == 2 %}box featured  {% else %}box {% endif %}">
+              <h3>{{ q.pricing_header }}</h3>
+              {% if  q.row_id == 4 %}
+              <span class="advanced">Advanced</span>
+              {% endif %}
+              <h4><sup>$</sup>{{ q.number }}<span> / month</span></h4>
+              <ul>
+                <li>{{ q.row1}}</li>
+                <li>{{ q.row2}}</li>
+                <li>{{ q.row3}}</li>
+                <li class="na">{{ q.row4}}</li>
+                <li class="na">{{ q.row5}}</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">{{ q.row6}}</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- End Pricing Section -->
+
+
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="faq section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>F.A.Q</h2>
+          <h3>{{ company.faq_title }}</h3>
+          <p>{{ company.faq_description }}</p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-xl-10">
+            <ul class="faq-list">
+              {% for q in company.faqs.all %}
+              <li>
+                <div data-bs-toggle="collapse" class="collapsed question" href="#faq{{ forloop.counter }}">
+                  {{ q.title }}
+                  <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
+                </div>
+                <div id="faq{{ forloop.counter }}" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    {{ q.description }}
+                  </p>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Frequently Asked Questions Section -->
+
+    <!-- ======= Contact Section ======= -->
+   <section id="contact" class="contact">
+     <div class="container" data-aos="fade-up">
+       <div class="section-title">
+         <h2>Contact</h2>
+         <h3><span>{{ company.contact_us_title }}</span></h3>
+         <p>{{ company.contact_us_description }}</p>
+       </div>
+       <div class="row" data-aos="fade-up" data-aos-delay="100">
+         {% for q in company.contact.all %}
+         <div class="{{  q.class_style }}">
+           <div class="info-box mb-4">
+             <i class="{{  q.icon_name }}"></i>
+             <h3>{{ q.contact_us_title }}</h3>
+             <p>{{ q.contact_us_description }}</p>
+           </div>
+         </div>
+         {% endfor %}
+       </div>
+       <!--
+       <div class="row" data-aos="fade-up" data-aos-delay="100">
+         <div class="col-lg-6 ">
+           <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+         </div>
+         <div class="col-lg-6">
+           <form action="bizland:index" method="post" role="form" class="php-email-form">
+             <div class="row">
+               <div class="col form-group">
+                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+               </div>
+               <div class="col form-group">
+                 <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+               </div>
+             </div>
+             <div class="form-group">
+               <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+             </div>
+             <div class="form-group">
+               <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+             </div>
+             <div class="my-3">
+               <div class="loading">Loading</div>
+               <div class="error-message"></div>
+               <div class="sent-message">Your message has been sent. Thank you!</div>
+             </div>
+             <div class="text-center"><button type="submit">Send Message</button></div>
+           </form>
+         </div>
+       </div>
+       -->
+       <div class="row" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="col-lg-6 ">
+            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="php-email-form">
+              <div class="row">
+                <h4 style="text-align:center; width:100%">{{company_obj.contact.send_message_title}}</h4>
+                <div class="col form-group">
+                  <input type="text" name="name" class="form-control" id="contact_us_name" placeholder="Your Name" required value="">
+                </div>
+                <div class="col form-group">
+                  <input type="email" class="form-control" name="email" id="contact_us_email" placeholder="Your Email" required value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="contact_us_subject" placeholder="Enter Subject" required  value="">
+              </div>
+              <div class="form-group">
+                <textarea id="contact_us_message" class="form-control" name="message" rows="5" placeholder="Enter message." required ></textarea>
+              </div>
+              <div class="text-center">
+              <div id="message_sent" ></div>
+                <button onclick="send_contact_us(event)" contact_id="{{ company.id }}" style="border-radius:50px; color:blue; background-color:lightblue">Send Message</button></div>
+            </div>
+          </div>
+        </div>
+
+     </div>
+   </section>
+    <!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h4>{{ company.subscribe_title }}</h4>
+            <p>{{ company.subscribe_description }}</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3><span>{{ company.company_name }}</span></h3>
+            <p>
+              {{ company.address1 }}<br>
+              {{ company.address2 }}<br>
+              {{ company.address3 }}<br><br>
+              <strong>Phone:</strong>{{ company.phone }}<br>
+              <strong>Email:</strong>{{ company.email }}<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>{{ company.footer_links_title }}</h4>
+            <p>{{ company.footer_links_description }}</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>{{ company.Copyright_name }}</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bizland-bootstrap-business-template/ -->
+        Designed by <a href="{{ company.designer_link }}" target="_blank">{{ company.designer_name }}</a>
+      </div>
+    </div>
+  </footer>
+<!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+<script>
+{% block domready %}
+
+var link_post_contact_us = '{% url "bizland:post_contact_us" %}'
+
+    send_contact_us = function(event)
+    {
+    //alert(111)
+      event.preventDefault();
+      var elm = event.target
+     //alert(elm.outerHTML)
+      var contact_id_ = elm.getAttribute("contact_id")
+      //alert(contact_id_)
+      var contact_us_name_ = document.getElementById("contact_us_name").value
+      var contact_us_email_ = document.getElementById("contact_us_email").value
+      var contact_us_subject_ = document.getElementById("contact_us_subject").value
+      var contact_us_message_ = document.getElementById("contact_us_message").value
+
+       try{
+            $.post(link_post_contact_us,
+              {
+                contact_id : contact_id_,
+                name : contact_us_name_,
+                email : contact_us_email_,
+                subject : contact_us_subject_,
+                message : contact_us_message_
+              },
+              function(data){
+                  alert(data['status'])
+              });
+          } catch(er){alert(er)}
+    }
+
+{% endblock %}
+</script>
+{% endblock %}

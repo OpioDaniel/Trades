@@ -1,0 +1,13 @@
+{% extends "base_ueconomics.html" %}
+{% load thumbnail %}
+
+{% block sub_app_toolbar %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'ueconomics:index' %}">U Economics</a>
+    </li>
+{% endblock sub_app_toolbar %}
+
+{% block body %}
+ {{title}}<br/>
+Data was uploaded
+{% endblock body %}

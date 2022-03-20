@@ -1,0 +1,58 @@
+{% load static %}
+<html>
+<head>
+    <style>
+
+.pencil {
+  cursor: crosshair;
+<!--  cursor: url({% static "main/pencil.png" %}) 5 5, pointer;-->
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button3 {border-radius: 30%;}
+.button5 {border-radius: 50%;}
+.buttonadd {border-radius: 50%;padding: 8px;margin: 10px 20px;}
+
+
+    </style>
+</head>
+<body id="body0">
+
+<script>
+
+function acWin(win_name="none", win_title="none", width="500", height="300", left="0", top="0", is_scroll=true)
+{
+
+//alert(win_name +" : " + win_title +" : " + width +" : " + height +" : " + left +" : " + top)
+  this.win_name = win_name
+  this.win_frame = document.createElement("div");
+  this.win_frame.setAttribute("id", "win_frame_"+this.win_name);
+  this.style_frame = "position: fixed; background-color: white; z-index: 11; text-align: left;"
+  this.style_frame += "height:"+height+"px;width:"+width+"px;font-size:12px;"
+  this.style_frame += "border:2px solid #0094ff;"
+  this.style_frame += "border-top-left-radius:35px;border-top-right-radius:35px;"
+  this.style_frame += "left:"+left+";top:"+top+";"
+  this.win_frame.setAttribute("style", this.style_frame);
+//alert(this.win_frame.outerHTML)
+
+  body_ = document.getElementById("body0")
+  body_.appendChild(this.win_frame)
+}
+
+alm = new acWin()
+</script>
+
+
+</body>
+</html>

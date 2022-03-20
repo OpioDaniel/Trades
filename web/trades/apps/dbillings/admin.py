@@ -4,7 +4,7 @@ from .models import Customer, Item, Invoice, InvoiceItem
 
 @admin.register(Customer)
 class CustomersAdmin(admin.ModelAdmin):
-    list_display = ('customer_number', 'first_name', 'last_name', )
+    list_display = ('customer_number', 'first_name', 'last_name')
 
 
 @admin.register(Invoice)
@@ -20,5 +20,4 @@ class InvoicesItemsAdmin(admin.ModelAdmin):
 @admin.register(Item)
 class ItemsAdmin(admin.ModelAdmin):
     list_display = ('item_number', 'item_name')
-
 

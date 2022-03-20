@@ -1,0 +1,64 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+
+    .tab button:hover {
+
+     background-color: red;
+     transition: 0.3s;
+     }
+
+     .tab button.active {
+     background-color: purple;
+
+     }
+</style>
+</head>
+<body id="body_">
+
+<script>
+    var at = null;
+</script>
+
+<script src="{% static 'js/academycity/advanced_tabs.js' %}"></script>
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'js/npm/cookie/js.cookie.min.js' %}"></script>
+
+<script>
+
+var csrftoken = Cookies.get('csrftoken');
+function csrfSafeMethod(method) {
+// these HTTP methods do not require CSRF protection
+return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+beforeSend: function(xhr, settings) {
+  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  }
+}
+});
+
+$(document).ready(function(){
+var elm_body = document.getElementById("body_")
+at = new AdvancedTabs(
+   my_name="at", body_=elm_body, is_show_btns=true,
+   add_link='{% url "vtab:add_tab" %}',
+   delete_link='{% url "vtab:delete_tab" %}',
+   get_tabs_from_table_link='{% url "vtab:get_tabs_from_table" %}',
+   update_text_tab = '{% url "vtab:update_text_tab" %}'
+   )
+
+{% block domready %}
+{% endblock %}
+});
+</script>
+</body>
+</html>

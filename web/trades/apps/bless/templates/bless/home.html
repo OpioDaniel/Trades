@@ -1,0 +1,116 @@
+{% extends "base_bless.html" %}
+{% load static %}
+
+
+{% block sub_app_toolbar %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'bless:acquisition' %}">Margery and Acquisition</a>
+    </li>
+
+     <li class="nav-item">
+      <a class="nav-link" href="{% url 'bless:practise' %}">Practise For M&A</a>
+    </li>
+
+{% endblock sub_app_toolbar %}
+
+
+
+{% block body %}
+<style>
+ section ul {
+    list-style:none;
+    display:flex;
+ }
+
+section ul li{
+    padding:8px 20px;
+    margin:5px;
+    color:white;
+    background-color:black;
+    cursor:pointer;
+    font-size:25px;
+    letter-spacing:1px;
+
+ }
+section ul li.active{
+    background:green;
+ }
+
+section ul li:hover{
+    background:green;
+ }
+
+  img{
+    width:200px;
+    height:200px;
+ }
+.product{
+    display:flex;
+    flex-wrap:wrap;
+ }
+
+ div.product div.itemBox{
+   padding:5px;
+ }
+</style>
+
+<h1 style="color:blue">List of items</h1>
+
+<section>
+<ul class="">
+   <li class="list active" data-filter="all">All</li>
+   <li class="list" data-filter="app">WATCHES</li>
+   <li class="list" data-filter="web">LAPTOPS</li>
+   <li class="list" data-filter="card">LAPTOP BAGS</li>
+</ul>
+
+    <div class="product">
+        <div class="itemBox app"><img src="{% static 'bizland/img/portfolio/OIP_1.jpg' %}"></div>
+        <div class="itemBox web"><img src="{% static 'bizland/img/portfolio/OIP_7.jpg' %}"></div>
+        <div class="itemBox card"><img src="{% static 'bizland/img/portfolio/OIP_13.jpg' %}"></div>
+        <div class="itemBox app"><img src="{% static 'bizland/img/portfolio/OIP_2.jpg' %}"></div>
+        <div class="itemBox card"><img src="{% static 'bizland/img/portfolio/OIP_14.jpg' %}"></div>
+        <div class="itemBox web"><img src="{% static 'bizland/img/portfolio/OIP_8.jpg' %}"></div>
+        <div class="itemBox card"><img src="{% static 'bizland/img/portfolio/OIP_15.jpg' %}"></div>
+        <div class="itemBox web"><img src="{% static 'bizland/img/portfolio/OIP_9.jpg' %}"></div>
+        <div class="itemBox app"><img src="{% static 'bizland/img/portfolio/OIP_3.jpg' %}"></div>
+
+        <div class="itemBox app"><img src="{% static 'bizland/img/portfolio/OIP_4.jpg' %}"></div>
+        <div class="itemBox web"><img src="{% static 'bizland/img/portfolio/OIP_10.jpg' %}"></div>
+        <div class="itemBox card"><img src="{% static 'bizland/img/portfolio/OIP_16.jpg' %}"></div>
+        <div class="itemBox app"><img src="{% static 'bizland/img/portfolio/OIP_5.jpg' %}"></div>
+        <div class="itemBox card"><img src="{% static 'bizland/img/portfolio/OIP_17.jpg' %}"></div>
+        <div class="itemBox web"><img src="{% static 'bizland/img/portfolio/OIP_11.jpg' %}"></div>
+        <div class="itemBox card"><img src="{% static 'bizland/img/portfolio/OIP_18.jpg' %}"></div>
+        <div class="itemBox web"><img src="{% static 'bizland/img/portfolio/OIP_12.jpg' %}"></div>
+        <div class="itemBox app"><img src="{% static 'bizland/img/portfolio/OIP_6.jpg' %}"></div>
+    </div>
+</section>
+
+<!-- script below is from http://code.jquery.com/ (uncompressed) -->
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous">
+</script>
+
+<script>
+$(document).ready(function(){
+$('.list').click(function(){
+    const value = $(this).attr('data-filter');
+    //alert(value)
+    if(value == 'all'){
+     $('.itemBox').show('800');
+     }
+     else{
+     $('.itemBox').not('.' + value).hide('800');
+     $('.itemBox').filter('.' + value).show('800');
+     }
+});
+    $('.list').click(function(){
+    $(this).addClass('active').siblings().removeClass('active');
+
+    });
+
+});
+</script>
+{% endblock body %}

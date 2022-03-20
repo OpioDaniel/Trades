@@ -1,0 +1,583 @@
+{% load static %}
+{% block content %}
+<style>
+#plugin td.account {
+{% if LANGUAGE_CODE == "ar" %}
+  text-align: right
+{% else %}
+  text-align: left
+{% endif%}
+}
+</style>
+<!-- sum_category01 -->
+<script>
+sum_category01 = function(list_, t0, t1)
+{
+    var value0 = 0; var value1 = 0;
+    for (let account of list_)
+    {value0 += parseInt(eval(account+"0").innerHTML); value1 += parseInt(eval(account+"1").value);}
+    t0.innerHTML = value0; t1.innerHTML = value1;
+}
+sum_category1 = function(list_, t1)
+{
+    var value1 = 0;
+    for (let account of list_)
+    {value1 += parseInt(eval(account+"1").value);}
+    t1.innerHTML = value1;
+}
+
+sum_category_net1 = function(account1, list_, t1)
+{var value1 = parseInt(account1.innerHTML);
+ for (let account of list_) {value1 += parseInt(eval(account+"1").value);}; t1.innerHTML = value1;
+}
+
+sum_category_html = function(account1, list_, t1, year="0")
+{var value1 = parseInt(account1.innerHTML);
+ for (let account of list_) {value1 += parseInt(eval(account+year).innerHTML);}; t1.innerHTML = value1;
+}
+
+sum_category_cf1 = function(list_, t1)
+{var value1 = 0; for (let account of list_){value1 += parseInt(eval(account+"1").innerHTML);}; t1.innerHTML = value1;}
+
+</script>
+<!-- re_calculate -->
+<script>
+re_calculate = function (event)
+{
+    //elm = event.target
+    let accounts01 = ['cash', 'inventory', 'account_receivables', 'other_current_assets', 'total_current_assets',
+                       'ppe', 'accumulated_depreciation', 'subsidiaries', 'intangibles', 'total_long_term_assets',
+                       'total_assets',
+                       'current_liabilities', 'long_term_liabilities', 'total_liabilities',
+                       'common_stock','retained_earning', 'total_equity' , 'total_liabilities_equity'
+                      ];
+    for (const account of accounts01){
+      eval(account+"1 = document.getElementById('"+account+"1')");
+      eval(account+"0 = document.getElementById('"+account+"0')");
+    }
+
+    let accounts1 = ['revenue', 'cofgs', 'depreciation_is', 'gross_profit', 'sales_marketing', 'general_administrative',
+                     'income_before_taxes', 'taxes', 'interest', 'net_income_is',
+                     'net_income_cf', 'depreciation_cf', 'wc', 'cf_operation',
+                     'net_capital_ex_cf', 'depreciation_ce_cf', 'capital_ex_cf',
+                     'common_stock_cf', 'ltd_cf', 'dividend_cf', 'financing_activities_cf', 'change_in_cash_cf',
+                     'retained_earning_bre1', 'retained_earning_ere1', 'net_income_is_re', 'dividend'];
+    for (const account of accounts1){eval(account+"1 = document.getElementById('"+account+"1')");}
+
+    let total_current_assets = ['cash', 'inventory', 'account_receivables', 'other_current_assets'];
+    sum_category01(total_current_assets, total_current_assets0, total_current_assets1)
+
+    let total_long_term_assets = ['ppe', 'accumulated_depreciation', 'subsidiaries', 'intangibles'];
+    sum_category01(total_long_term_assets, total_long_term_assets0, total_long_term_assets1)
+
+    total_assets0.innerHTML = parseInt(total_current_assets0.innerHTML) + parseInt(total_long_term_assets0.innerHTML)
+    total_assets1.innerHTML = parseInt(total_current_assets1.innerHTML) + parseInt(total_long_term_assets1.innerHTML)
+
+    let total_liabilities = ['current_liabilities', 'long_term_liabilities'];
+    sum_category01(total_liabilities, total_liabilities0, total_liabilities1)
+
+    //let total_equity = ['common_stock','retained_earning'];
+    //sum_category01(total_equity, total_equity0, total_equity1)
+
+    let gross_profit = ['revenue', 'cofgs', 'depreciation_is']; sum_category1(gross_profit, gross_profit1)
+    let ebit = ['sales_marketing', 'general_administrative'];  sum_category_net1(gross_profit1, ebit, ebit1)
+    let interest = ['interest'];  sum_category_net1(ebit1, interest, income_before_taxes1)
+    let taxes = ['taxes'];  sum_category_net1(income_before_taxes1, taxes, net_income_is1)
+    //
+    retained_earning_bre1.innerHTML = retained_earning0.innerHTML
+    net_income_is_re1.innerHTML = net_income_is1.innerHTML
+    retained_earning_ere1.innerHTML = parseInt(retained_earning_bre1.innerHTML)+parseInt(net_income_is_re1.innerHTML)+parseInt(dividend1.value)
+    retained_earning1.innerHTML = retained_earning_ere1.innerHTML
+    //
+    sum_category_net1(retained_earning1, ['common_stock'], total_equity1)
+
+    sum_category_html(retained_earning0, ['common_stock'], total_equity0, year="0")
+    total_liabilities_equity0.innerHTML = parseInt(total_liabilities0.innerHTML) + parseInt(total_equity0.innerHTML)
+    total_liabilities_equity1.innerHTML = parseInt(total_liabilities1.innerHTML) + parseInt(total_equity1.innerHTML)
+    //
+    net_income_cf1.innerHTML = net_income_is1.innerHTML
+    depreciation_cf1.innerHTML = parseInt(-depreciation_is1.value)
+    depreciation_ce_cf1.innerHTML = parseInt(depreciation_is1.value)
+
+    lta1 = parseInt(ppe1.value)+parseInt(accumulated_depreciation1.value)+parseInt(subsidiaries1.value)+parseInt(intangibles1.value)
+    lta0 = parseInt(ppe0.innerHTML)+parseInt(accumulated_depreciation0.innerHTML)+parseInt(subsidiaries0.innerHTML)+parseInt(intangibles0.innerHTML)
+    net_capital_ex_cf1.innerHTML = lta0-lta1
+    wc1.innerHTML =
+    (parseInt(inventory0.innerHTML) + parseInt(account_receivables0.innerHTML) +
+     parseInt(other_current_assets0.innerHTML) - parseInt(current_liabilities0.innerHTML)
+    ) -
+    (parseInt(inventory1.value) + parseInt(account_receivables1.value) +
+     parseInt(other_current_assets1.value) - parseInt(current_liabilities1.value)
+    )
+    ltd_cf1.innerHTML = parseInt(long_term_liabilities1.value) - parseInt(long_term_liabilities0.innerHTML)
+    common_stock_cf1.innerHTML = parseInt(common_stock1.value) - parseInt(common_stock0.innerHTML)
+    //dividend_cf1.innerHTML = parseInt(retained_earning1.value) - parseInt(retained_earning0.innerHTML) - parseInt(net_income_is1.innerHTML)
+
+    dividend_cf1.innerHTML = parseInt(dividend1.value)
+
+    let cf_operation = ['net_income_cf', 'depreciation_cf', 'wc']
+    sum_category_cf1(cf_operation, cf_operation1)
+    let cf_capital_exp = ['net_capital_ex_cf', 'depreciation_ce_cf']
+    sum_category_cf1(cf_capital_exp, capital_ex_cf1)
+    let cf_financing = ['ltd_cf', 'common_stock_cf', 'dividend_cf']
+    sum_category_cf1(cf_financing, financing_activities_cf1)
+    change_in_cash_cf1.innerHTML = parseInt(cf_operation1.innerHTML) +
+    parseInt(capital_ex_cf1.innerHTML) + parseInt(financing_activities_cf1.innerHTML)
+}
+</script>
+<!-- new_company -->
+<script>
+new_company = function (c)
+{
+ let accounts01 = ['cash', 'inventory', 'account_receivables', 'other_current_assets', 'total_current_assets',
+                   'ppe', 'accumulated_depreciation', 'subsidiaries', 'intangibles', 'total_long_term_assets',
+                   'total_assets',
+                   'current_liabilities', 'long_term_liabilities', 'total_liabilities',
+                   'common_stock','retained_earning', 'total_equity' , 'total_liabilities_equity'
+                  ];
+    for (const account of accounts01){
+     s0 = account + "0.innerHTML = 0"; eval(s0);
+     s1 = account + "1.value = 0";eval(s1);
+     s10 = account+"1.innerHTML = 0";eval(s10);
+    }
+    let accounts1 = ['revenue', 'cofgs', 'depreciation_is', 'sales_marketing', 'general_administrative',
+                     'taxes', 'interest', 'dividend'];
+    for (const account of accounts1){s1 = account + "1.value = 0"; eval(s1)}
+    let accounts0 = ['gross_profit', 'income_before_taxes', 'net_income_is', 'retained_earning_bre',
+                     'retained_earning_ere', 'net_income_is_re'];
+    for (const account of accounts0) {s0 = account + "1.innerHTML = 0"; eval(s0);}
+    re_calculate()
+    if (c==0)
+    {
+        as_ = document.querySelectorAll('[ac]')
+        var event = new Event("click", {bubbles: true});
+        for (i in as_)
+        {
+          a = as_[i].getAttribute("ac")
+          if(a==1){as_[i].dispatchEvent(event);}
+        }
+    }
+}
+</script>
+
+<!-- case_studies -->
+<script>
+case_studies = function (event)
+{
+ elm = event.target
+  //alert(elm.outerHTML)
+
+ a = elm.getAttribute("class").split("-")[1]
+  //alert(a)
+ if ( a=="remove" || a=="file"){ elm = elm.parentNode; }
+
+  s = "a = " + elm.getAttribute("account");
+  //alert(s)
+  eval(s)
+  //alert(a)
+
+  for (i in a)
+  {
+   //alert(i) ; alert(a[i])
+   sa = i + ".value =  parseInt(" + i + ".value) + parseInt(" + a[i] + ")"
+   //alert(sa)
+   eval(sa)
+   }
+
+   re_calculate()
+   retained_earning1.value = net_income_is1.innerHTML
+   re_calculate()
+}
+</script>
+
+<button onclick="new_company(c=1)" class="badge badge-pill badge-primary">Clean data </button>
+<button onclick="new_company(c=0)" class="badge badge-pill badge-primary" >Run all transactions </button>
+
+<div oninput="re_calculate(event)" class="row"
+        {% if LANGUAGE_CODE == "ar" %}
+            dir="RTL" style="text-align: right;"
+        {% else %}
+            dir="LTR"
+        {% endif%} >
+  <div id="bs_nav" class="column left" style="width:38%;padding: 0px 15px 0px 0px;background-color:#80b3ff;">
+      <table id="plugin" class="fsa">
+        <thead>
+        <th colspan="3">Balance Sheet</th>
+        </thead>
+        <tbody>
+            <tr><td class="main"></td><td class="side">20X1</td><td class="side">20X2</td></tr>
+            <tr><td style="text-align: center"><u>Assets</u></td><td></td><td></td></tr>
+            <tr><td style="text-align: center"><u>Current Assets</u></td><td></td><td></td></tr>
+
+            <tr><td class="account">Cash</td>
+                <td id="cash0" class="side">3</td><td class="side">
+                <input id="cash1" value="18" /></td></tr>
+            <tr><td class="account">Inventory</td>
+                <td id="inventory0" class="side">9</td><td class="side">
+                <input id="inventory1" value="11" /></td></tr>
+            <tr><td class="account">Account Receivables</td>
+                <td id="account_receivables0" class="side">7</td><td class="side">
+                <input id="account_receivables1" value="3" /></td></tr>
+            <tr><td class="account"> Other Current Assets</td>
+                <td id="other_current_assets0" class="side">6</td><td class="side">
+                <input id="other_current_assets1" value="8" /></td></tr>
+            <tr><td class="account" style="text-align: right">Total current assets</td>
+                <td id="total_current_assets0" class="side">25</td>
+                <td id="total_current_assets1" class="side">40</td>
+            </tr>
+
+            <tr><td style="text-align: center"><u>Long Term Assets<u/></td><td></td><td></td></tr>
+            <tr><td class="account"> Proporties Plants & Equipments</td>
+                <td id="ppe0" class="side">400</td><td class="side">
+                <input id="ppe1" value="445" /></td></tr>
+            <tr><td class="account">&nbsp;&nbspAccumulated Depreciation</td>
+                <td id="accumulated_depreciation0" class="side">-40</td><td class="side">
+                <input id="accumulated_depreciation1" value="-70" /></td></tr>
+            <tr><td class="account">Subsidiaries</td>
+                <td id="subsidiaries0" class="side">300</td><td class="side">
+                <input id="subsidiaries1" value="330" /></td></tr>
+            <tr><td class="account"> Intangibles</td>
+                <td id="intangibles0" class="side">120</td><td class="side">
+                <input id="intangibles1" value="110" /></td></tr>
+            <tr><td class="account" style="text-align: right">Total L.T.A</td><td id="total_long_term_assets0" class="side">780</td>
+                <td id="total_long_term_assets1" class="side">815</td></tr>
+
+            <tr><td class="account" style="text-align: right">Total assets</td><td id="total_assets0" class="side">805</td>
+                <td id="total_assets1" class="side">855</td></tr>
+
+            <tr><td style="text-align: center"><u>Liabilities<u/></td><td></td><td></td></tr>
+            <tr><td class="account">Current Liabilities</td>
+                <td id="current_liabilities0" class="side">32</td><td class="side">
+                 <input id="current_liabilities1" value="45" /></td></tr>
+            <tr><td class="account">Long Term Liabilities</td>
+                <td id="long_term_liabilities0" class="side">600</td><td class="side">
+                 <input id="long_term_liabilities1" value="565" /></td></tr>
+            <tr><td class="account" style="text-align: right">Total Liabilities</td><td id="total_liabilities0" class="side">632</td>
+                <td id="total_liabilities1" class="side">610</td></tr>
+
+            <tr><td style="text-align: center"><u>Equity<u/></td><td></td><td></td></tr>
+            <tr><td class="account">Common Stock</td>
+                <td id="common_stock0" class="side">50</td><td class="side">
+                 <input id="common_stock1" value="65" /></td></tr>
+
+            <tr><td class="account">Retained Earning</td>
+                <td id="retained_earning0" class="side">123</td>
+                <td id="retained_earning1" class="side">155</td></td>
+            </tr>
+
+            <tr><td class="account" style="text-align: right">Total Equity</td>
+                <td id="total_equity0" class="side">173</td>
+                <td id="total_equity1" class="side">220</td></tr>
+
+            <tr><td class="account" style="text-align: right">Total Liab. + Equity</td>
+                <td id="total_liabilities_equity0" class="side">805</td>
+                <td id="total_liabilities_equity1" class="side">855</td></tr>
+        </tbody>
+     </table>
+  </div>
+
+  <div id="is_nav" class="column middle" style="width:30%;padding: 0px 15px 0px 0px;background-color:#80b3ff;">
+    <table id="plugin" class="fsa">
+        <thead>
+        <th colspan="3">Income Statement</th>
+        </thead>
+        <tbody onclick="case_studies(event)">
+            <tr><td class="main"></td><td class="side">20X2</td></tr>
+            <tr><td class="account">Revenue</td><td class="side">
+                <input id="revenue1" value="2100" /></td></tr>
+            <tr><td class="account">Cost of Goods Sold</td><td class="side">
+                <input id="cofgs1" value="-1610" /></td></tr>
+            <tr><td class="account">Depreciation</td><td class="side">
+                <input id="depreciation_is1" value="-40" /></td></tr>
+            <tr><td class="account">Gross Profit</td><td id="gross_profit1" class="side">
+                450</td></tr>
+            <tr><td class="account">Sales & Marketing Exp</td><td class="side">
+                <input id="sales_marketing1" value="-110" /></td></tr>
+            <tr><td class="account">General & Administrative Exp</td><td class="side">
+                <input id="general_administrative1" value="-75" /></td></tr>
+            <tr><td class="account">Operating Profit (EBIT)</td><td id="ebit1" class="side">
+                265</td></tr>
+            <tr><td class="account">Interest Exp.</td><td class="side">
+                <input id="interest1" value="-130" /></td></tr>
+            <tr><td class="account">Income Before Taxes</td><td id="income_before_taxes1" class="side">
+                135</td></tr>
+            <tr><td class="account">Taxes</td><td class="side">
+                <input id="taxes1" value="-23" /></td></tr>
+            <tr><td class="account">Net Income</td><td id="net_income_is1" class="side">
+                112</td></tr>
+
+            <tr><th colspan="3">Schedule of Retained Earnings</th></tr>
+            <tr><td class="account">Beginning Retained Earning</td>
+                <td id="retained_earning_bre1" class="side">123</td><td class="side"></tr>
+            <tr><td class="account">Net Income</td><td id="net_income_is_re1" class="side">
+                112</td></tr>
+            <tr><td class="account">Dividend</td><td class="side">
+                <input id="dividend1" value="-55" /></td></tr>
+            <tr><td class="account">Ending Retained Earning</td>
+                <td id="retained_earning_ere1" class="side">155</td><td class="side"></tr>
+
+            <tr><td class="account">-----------------</td><td class="side"> ------ </td></tr>
+            <tr><td class="account"><u>Case Studies</u></td><td id="net_income_is1" class="side"></td></tr>
+
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': 50, 'common_stock1': 50}">
+                     1.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"></i>Issue Equity 50" %}
+                   </a>
+                </td>
+
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                    account="{'cash1': -50, 'common_stock1': -50}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"></i>
+                   </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="account">
+                <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': 600, 'long_term_liabilities1': 600}">
+                     2.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'cash1': 600, 'long_term_liabilities1': 600}"></i>  "Issue Debt 600"
+                   </a></td>
+
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                    account="{'cash1': -600, 'long_term_liabilities1': -600}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'cash1': -600, 'long_term_liabilities1': -600}"></i>
+                   </a>
+                </td>
+            </tr>
+
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'inventory1': 800, 'current_liabilities1': 800}">
+                     3.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'inventor1': 800, 'current_liabilities1': 800}"></i>Buy inventory (credit) 800
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                    account="{'inventory1': -800, 'current_liabilities1': -800}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'inventor1': -800, 'current_liabilities1': -800}"></i>
+                   </a>
+                </td></tr>
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'inventory1': -791, 'cofgs1': -791, 'account_receivables1': 7, 'cash1': 1267, 'revenue1': 1274}">
+                     4.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'inventory1': -791, 'cofgs1': -791, 'account_receivables1': 7, 'cash1': 1267, 'revenue1': 1274}"></i> Sale inventory (credit 7) 1274
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'inventory1': 791, 'cofgs1': 791, 'account_receivables1': -7, 'cash1': -1267, 'revenue1': -1274}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'inventory1': 791, 'cofgs1': 791, 'account_receivables1': -7, 'cash1': -1267, 'revenue1': -1274}"></i>
+                   </a>
+                </td></tr>
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': -768, 'current_liabilities1': -768}">
+                     5.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'cash1': -768, 'current_liabilities1': -768}"></i> Pay Suppliers 768
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'cash1': 768, 'current_liabilities1': 768}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'cash1': -768, 'current_liabilities1': -768}"></i>
+                   </a>
+                </td></tr>
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': -400, 'ppe1': 400}">
+                     6.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'cash1': -400, 'ppe1': 400}"></i> Buy PP&E 400
+                    </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'cash1': 400, 'ppe1': -400}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'cash1': 400, 'ppe1': -400}"></i>
+                   </a>
+                </td></tr>
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': -130, 'interest1': -130}">
+                     7.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'cash1': -130, 'interest1': -130}"></i> Pay Interest 130
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'cash1': 130, 'interest1': 130}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'cash1': 130, 'interest1': 130}"></i>
+                   </a>
+                </td></tr>
+        </tbody>
+    </table>
+  </div>
+
+  <div id="cf_nav" class="column right" style="width:28%;;padding: 0px 15px 0px 0px;background-color:#80b3ff;">
+    <table id="plugin" class="fsa" onclick="case_studies(event)">
+        <thead>
+        <th colspan="3">Statement of Cash Flow</th>
+        </thead>
+        <tbody>
+            <tr><td class="main"></td><td class="side">20X2</td></tr>
+            <tr><td style="text-align: center"><u>Operation<u/></td><td></td></tr>
+            <tr><td class="account">Net Income</td><td id="net_income_cf1" class="side">112</td></tr>
+            <tr><td class="account"> Depreciation</td><td id="depreciation_cf1" class="side">40</td></tr>
+            <tr><td class="account">Increase in Working Capital</td><td id="wc1" class="side">13</td></tr>
+            <tr><td style="text-align: right"> Cash from Operation</td><td id="cf_operation1" class="side">165</td></tr>
+            <tr><td style="text-align: center"><u>Investment<u/></td><td></td></tr>
+            <tr><td class="account">Net Capital Exp</td><td id="net_capital_ex_cf1" class="side">-35</td></tr>
+            <tr><td class="account">Depreciation</td><td id="depreciation_ce_cf1" class="side">-40</td></tr>
+            <tr><td style="text-align: right">Cash from investing</td><td id="capital_ex_cf1" class="side">-75</td></tr>
+            <tr><td style="text-align: center"><u>Financing Activities<u/></td><td></td></tr>
+            <tr><td class="account">&nbsp;&nbsp;Increase in LT. Debt</td><td id="ltd_cf1" class="side">-35</td></tr>
+            <tr><td class="account">&nbsp;&nbsp;Increase in Common Stock</td><td id="common_stock_cf1" class="side">15</td></tr>
+            <tr><td class="account">&nbsp;&nbsp;Dividend</td><td id="dividend_cf1" class="side">-80</td></tr>
+            <tr><td style="text-align: right">Cash from financing</td><td id="financing_activities_cf1" class="side">-100</td></tr>
+            <tr><td class="account">Change in Cash</td><td id="change_in_cash_cf1" class="side">15</td></tr>
+            <tr><td class="account">-----------------</td><td id="net_income_is1" class="side"> ------ </td></tr>
+            <tr><td class="account"><u>Case Studies</u></td><td id="net_income_is1" class="side"></td></tr>
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': -300, 'subsidiaries1': 300}">
+                     8.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'cash1': -300, 'subsidiaries1': 300}"></i> Invest in Subsidiary 300
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'cash1': 300, 'subsidiaries1': -300}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'cash1': 300, 'subsidiaries1': -300}"></i>
+                   </a>
+                </td></tr>
+            <tr><td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'cash1': -120, 'intangibles1': 120}">
+                     9.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'cash1': -120, 'intangibles1': 120}"></i> Invest in Intangibles 120
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'cash1': 120, 'intangibles1': -120}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'cash1': 120, 'intangibles1': -120}"></i>
+                   </a>
+                </td></tr>
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'sales_marketing1': -110, 'cash1': -110}">
+                     10.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'sales_marketing1': -110, 'cash1': -110}"></i> Sales & Marketing Exp 110
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'sales_marketing1': 110, 'cash1': 110}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'sales_marketing1': 110, 'cash1': 110}"></i>
+                   </a>
+                </td></tr>
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'general_administrative1': -75, 'cash1': -75}">
+                     11.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'general_administrative1': -75, 'cash1': -75}"></i> General and Administrative 75
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'general_administrative1': 75, 'cash1': 75}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'general_administrative1': 75, 'cash1': 75}"></i>
+                   </a>
+                </td></tr>
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'other_current_assets1': 6, 'cash1': -6}">
+                     12.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'other_current_assets1': 6, 'cash1': -6}"></i> Invest in Commercial Paper (6)
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'other_current_assets1': -6, 'cash1': 6}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'other_current_assets1': -6, 'cash1': 6}"></i>
+                   </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'depreciation_is1': -40, 'accumulated_depreciation1': -40}">
+                     13.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'depreciation_is1': -40, 'accumulated_depreciation1': -40}"></i> Account for Depreciation 40
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'depreciation_is1': 40, 'accumulated_depreciation1': 40}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'depreciation_is1': 40, 'accumulated_depreciation1': 40}"></i>
+                   </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'taxes1': -2, 'cash1': -2}">
+                     14.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'taxes1': -2, 'cash1': -2}"></i> Account for taxes (2)
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'taxes1': 2, 'cash1': 2}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'taxes1': 2, 'cash1': 2}"></i>
+                   </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="account">
+                    <a href="#" class="btn btn-sm btn-info" ac="1" style="background-color:#3366ff"
+                     account="{'dividend1': -3, 'cash1': -3}">
+                     15.&nbsp;<i class="fa fa-file-o" style="font-size:15px;color:white;"
+                     account="{'dividend11': -3, 'cash1': -3}"></i> Account for dividend (3)
+                   </a>
+                </td>
+                <td class="side">
+                    <a href="#" class="btn btn-sm btn-info" style="background-color:#3366ff"
+                     account="{'dividend11': 3, 'cash1': 3}">
+                     <i class="fa fa-remove" style="font-size:12px;color:red"
+                     account="{'dividend11': 3, 'cash1': 3}"></i>
+                   </a>
+                </td>
+            </tr>
+<!--9) account for depreciation-->
+<!--8) pay taxes-->
+<!--10) Distribute dividend-->
+        </tbody>
+    </table>
+  </div>
+</div>
+<br/><br/>
+{% endblock content %}

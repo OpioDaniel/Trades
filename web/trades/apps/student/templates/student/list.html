@@ -1,0 +1,43 @@
+{% extends "base_student.html" %}
+{% load static %}
+
+
+{% block body %}
+<a href="{% url 'student:add_student' %}">
+         <button style="color:blue; background-color:lightblue;">Add students</button>
+         </a>
+<table>
+    <thead>
+    <tr>
+    <th>ID</th>
+    <th>FullName</th>
+    <th>Country</th>
+    <th>View</th>
+    <th>Update</th>
+    <th>Delete</th>
+    </tr>
+    </thead>
+{% for student in students %}
+ <tr>
+     <td>{{student.id}}</td>
+     <td>{{student.full_name}}</td>
+     <td>{{student.country}}</td>
+     <td>
+         <a href="{% url 'student:view_detail' student.pk %}">
+         <button style="border-radius:50px; color:blue; background-color:lightblue;">View</button>
+         </a>
+     </td>
+     <td>
+         <a href="{% url 'student:edit_info' student.id %}">
+         <button style="border-radius:50px; color:blue; background-color:lightblue;">Edit</button>
+         </a>
+     </td>
+     <td>
+         <a href="{% url 'student:delete_info' student.id %}">
+         <button style="border-radius:50px; color:blue; background-color:lightblue;">Delete</button>
+         </a>
+     </td>
+ </tr>
+{% endfor %}
+</table>
+{% endblock body %}

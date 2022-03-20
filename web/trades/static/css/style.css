@@ -1,0 +1,213 @@
+
+body.design{
+    background-image: url('../pex.jpeg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: cal(100vh -80px);
+}
+body.login{
+background-image: url('../jerry.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: cal(100vh -80px);
+
+}
+
+body.box{
+    background-image: url('../jerry.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: cal(100vh -80px);
+  }
+.video iframe{
+margin-left:400px;
+}
+
+.geb{
+margin-left:100px;
+}
+nav{
+    background-color: cadetblue;
+    height: 80px;
+    width: 100%;
+
+
+}
+
+*{
+    padding: 0px;
+    margin: 0px;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body.design{
+    font-family: montserrat;
+}
+
+label.logo{
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight:bold ;
+}
+
+nav ul{
+    float: right;
+    margin-right: 30px;
+}
+
+nav ul li{
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+
+}
+
+nav ul li a{
+    color: white;
+    font-size: 17px;
+    text-transform: uppercase;
+    padding: 7px 13px;
+    border-radius: 3px;
+}
+
+
+a.active,a:hover{
+    background:royalblue;
+    transition: .5s;
+}
+
+
+.checkbtn{
+    font-size: 30px;
+    color: white;
+    float: right;
+    line-height: 80px;
+    margin-right: 40px;
+    cursor: pointer;
+    display: none;
+}
+
+#check{
+    display: none;
+}
+
+@media(max-width:952px){
+    label.logo{
+        font-size: 30px;
+        padding-left: 50px;
+
+        }
+
+        nav ul li a{
+            font-size: 16px;
+        }
+}
+
+
+@media(max-width:858px){
+
+.checkbtn{
+    display: block;
+}
+
+ul{
+    position: fixed;
+    width: 100px;
+    height: 100vh;
+    background:green;
+    top: 80px;
+    left: -100;
+    text-align: center;
+    transition: all .5s;
+}
+
+nav ul li{
+    display: block;
+    margin: 50px 0;
+    line-height: 30px;
+}
+
+nav ul li a{
+    font-size: 20px;
+}
+
+a:hover,a.active{
+    background: none;
+    color:yellow;
+}
+
+#check:checked ~ ul{
+    left: 0;
+}
+
+}
+
+
+
+.input-field{
+    border-radius: 12px;
+    width: 150px;
+
+
+}
+
+
+#slider{
+    overflow: hidden;
+ }
+ #slider figure{
+             position: relative;
+             width: 200%;
+             height: 100%;
+             animation: 10s slider infinite;
+             animation-duration: 60s;
+             animation-iteration-count: 100;
+
+ }
+
+ #slider figure:hover{
+     transition:translate(10)
+
+ }
+ #slider figure img{
+    margin-left:0px;
+    width: 400px;
+    height: 200px;
+ }
+ @keyframe slide{
+     0{
+       left: 0;
+       right:0;
+     }
+
+    25{
+       left: -100%;
+       right:100%;
+    }
+    65{
+       left: 0%;
+       right:-100%;
+    }
+  }
+
+  .dan{
+    height:20px;
+    width:30px;
+
+  }
+
+
+
+
+
+
+
+
+

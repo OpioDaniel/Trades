@@ -1,0 +1,178 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    .tab button:hover {
+     background-color: blue;
+     transition: 0.3s;
+     }
+     .tab button.active {
+     background-color: green;
+     }
+</style>
+</head>
+<body>
+
+<button onclick="add_tab(event)">Add Tab</button>
+<button onclick="delete_tab(event)">Delete Tab</button>
+
+<div id="tab_container" class="tab">
+</div>
+
+<div id="tab_contents">
+</div>
+
+<!-- add_tab-->
+<script>
+    add_tab = function(event)
+    {
+       var tab_name_ = prompt("Enter name for new tab:" , '')
+       if(tab_name_ == '') {alert("Please enter a tab name"); return;}
+
+    $.post('{% url "vtab:add_tab" %}',
+          {
+            tab_name: tab_name_,
+          },
+          function(dic){
+            var tab_id_ = dic["tab_id"];
+            makebtndiv(tab_name_, tab_id_, '');
+          }
+          );
+    }
+</script>
+
+<!-- get_tabs_from_table -->
+<script>
+function get_tabs_from_table()
+{
+ $.post('{% url "vtab:get_tabs_from_table" %}',
+      {},
+      function(dic){
+          for (id in dic)
+          {
+            makebtndiv(tab_name=dic[id]["tab_name"], tab_id=id, tab_txt=dic[id]["tab_text"])
+          }
+          document.getElementById("tab_container").children[0].click();
+      }
+ );
+}
+</script>
+
+<!-- makebtndiv = function(tab_name, tab_id, tab_txt) -->
+<script>
+    makebtndiv = function(tab_name, tab_id, tab_text)
+    {
+      var btn = document.createElement("button");
+      btn.setAttribute("id", "tab_btn_"+tab_id);
+      btn.setAttribute("class", "tablinks");
+      btn.setAttribute("tab_name_id", tab_id);
+      btn.innerHTML = tab_name
+      btn.onclick = function openCity(event)
+                    {
+                    var elm = event.target
+                    var tab_name_id = elm.getAttribute('tab_name_id')
+                    var i, tabcontent, tablinks;
+
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for(i=0; i<tabcontent.length; i++){tabcontent[i].style.display = 'none';}
+
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {tablinks[i].className = tablinks[i].className.replace(" active", "");}
+
+                    document.getElementById("tab_content_id_"+tab_name_id).style.display = "block";
+                    event.currentTarget.className += " active";
+                    }
+      var tab_container = document.getElementById("tab_container")
+      tab_container.appendChild(btn)
+
+      var div = document.createElement("div");
+      div.setAttribute("id", "tab_content_id_"+tab_id);
+      div.setAttribute("class", "tabcontent");
+
+      var txt_ = document.createElement("textarea");
+      txt_.setAttribute("id", "tab_txt_"+tab_id);
+      txt_.setAttribute("tab_id", tab_id);
+      txt_.setAttribute("rows", 10);
+      txt_.setAttribute("cols", 30);
+
+      txt_.onchange = function onchange_txt(event){
+        var elm = event.target;
+        var tab_id_ = elm.getAttribute("tab_id");
+
+        $.post('{% url "vtab:update_text_tab" %}',
+          {
+            tab_id: tab_id_,
+            value: elm.value,
+          },
+          function(dic){
+            // alert(dic["status"]);
+         }
+        );
+      }
+      div.appendChild(txt_)
+      txt_.innerHTML = tab_text
+      var tab_contents = document.getElementById("tab_contents")
+      tab_contents.appendChild(div)
+      btn.click();
+    }
+</script>
+
+<!--delete_tab(event)-->
+<script>
+delete_tab = function (event)
+{
+ var tab_name_ = prompt("Enter name of a tab to delete:" , '')
+ if(tab_name_ == '') {alert("Please enter a tab name"); return;}
+ $.post('{% url "vtab:delete_tab" %}',
+      {
+        tab_name: tab_name_,
+      },
+      function(dic){
+        var tab_id_ = dic["tab_id"];
+        delete_tab_from_container(tab_id_, tab_name_);
+     }
+ );
+}
+</script>
+
+<!-- delete_tab_from_container -->
+<script>
+function delete_tab_from_container(tab_id_, tab_name_){
+  document.getElementById("tab_btn_"+tab_id_).outerHTML = ""
+  document.getElementById("tab_content_id_"+tab_id_).outerHTML = "";
+  document.getElementById("tab_container").children[0].click();
+}
+</script>
+
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'js/npm/cookie/js.cookie.min.js' %}"></script>
+<script>
+
+var csrftoken = Cookies.get('csrftoken');
+function csrfSafeMethod(method) {
+// these HTTP methods do not require CSRF protection
+return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+beforeSend: function(xhr, settings) {
+  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  }
+}
+});
+
+$(document).ready(function(){
+  get_tabs_from_table();
+
+{% block domready %}
+{% endblock %}
+});
+</script>
+</body>
+</html>

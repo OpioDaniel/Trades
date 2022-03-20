@@ -1,0 +1,45 @@
+{% extends "base_todos.html" %}
+{% load static %}
+
+{% block body %}
+<h1>welcome to todos </h1>
+<a href="{% url 'todos:add_citizen' %}">
+<button>Add Citizen</button>
+</a>
+
+<table>
+   <tr>
+       <th>ID</th>
+       <th>FullName</th>
+       <th>Country</th>
+       <th>View Detail</th>
+       <th>Edit</th>
+       <th>Delete</th>
+   </tr>
+{% for citizen in citizens %}
+<tr>
+    <td>{{citizen.id}}</td><td>{{citizen.full_name}}</td> <td>{{citizen.country}}</td>
+
+    <td>
+        <a href="{% url 'todos:view_detail' citizen.id %}">
+        <button style="border-radius:50px; color:blue; background-color:lightblue">View Detail</button>
+        </a>
+    </td>
+
+
+    <td>
+        <a href="{% url 'todos:edit_detail' citizen.id %}">
+        <button style="border-radius:50px; color:blue; background-color:lightblue">Edit</button>
+        </a>
+    </td>
+
+    <td>
+        <a href="{% url 'todos:delete_detail' citizen.id %}">
+        <button style="border-radius:50px; color:blue; background-color:lightblue">Delete</button>
+        </a>
+    </td>
+
+</tr>
+{% endfor %}
+</table>
+{% endblock body %}

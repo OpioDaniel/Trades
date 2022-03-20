@@ -1,0 +1,19 @@
+{% extends "base_student.html" %}
+{% load static %}
+
+
+{% block body %}
+
+<table>
+    <thead>
+    <tr>
+    <th>ID</th> <td>{{students.id}}</td></tr>
+    <tr>
+        <th>FullName</th> <td>{{students.full_name}}</td></tr>
+    <tr>
+        <th>Country</th> <td>{{students.country}}</td></tr>
+
+    </thead>
+
+</table>
+{% endblock body %}

@@ -1,0 +1,27 @@
+{% extends "base_student.html" %}
+{% load static %}
+
+
+{% block body %}
+
+{% if students_ %}
+<form action="{% url 'student:update_info' students_.id %}" method="post">
+    {% csrf_token %}
+    <label>FullName</label>
+<input type="text" name="full_name" value="{{students_.full_name}}"><br><br>
+    <label>Country</label>
+<input type="text" name="country" value="{{students_.country}}"><br><br>
+<input type="submit" value="Update">
+</form><br><br><br>
+
+{% else %}
+<form action="home" method="post">
+    {% csrf_token %}
+    <label>FullName</label>
+<input type="text" name="full_name" placeholder="full_name"><br><br>
+    <label>Country</label>
+<input type="text" name="country" placeholder="country"><br><br>
+<input type="submit" value="Submit">
+</form><br><br><br>
+{% endif %}
+{% endblock body %}

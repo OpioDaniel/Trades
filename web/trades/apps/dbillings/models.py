@@ -3,10 +3,6 @@ from django.urls import reverse
 
 
 class Customer(models.Model):
-
-    class Meta:
-        ordering = ['-customer_number']
-
     customer_number = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
@@ -40,4 +36,3 @@ class InvoiceItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
     unit_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
-

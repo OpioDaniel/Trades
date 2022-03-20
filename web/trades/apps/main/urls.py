@@ -10,6 +10,8 @@ app_name = "main"
 urlpatterns = [
     url(r'^$', home, name='home'),
 
+
+
     url(r'login/$', LoginView.as_view(template_name='main/login.html'), name='login'),
     url(r'^logout/$', LogoutView.as_view(template_name='main/logout.html'), name='logout'),
     url(r'^register/$', register, name='register'),
@@ -24,4 +26,4 @@ urlpatterns = [
     url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset-password/complete/$', MyPasswordResetCompleteView.as_view(), name='password_reset_complete'),
-]
+ ]

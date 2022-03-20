@@ -7,7 +7,6 @@ from .models import (GlobUser, UserProfile)
 
 admin.site.register(UserProfile)
 
-
 class GlobUserAdmin(UserAdmin):
     add_form = RegistrationForm
     model = GlobUser
@@ -15,3 +14,4 @@ class GlobUserAdmin(UserAdmin):
 
 
 admin.site.register(get_user_model(), GlobUserAdmin)
+
